@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 11:47:04 by tjo               #+#    #+#             */
-/*   Updated: 2022/12/26 18:04:45 by tjo              ###   ########.fr       */
+/*   Updated: 2022/12/26 19:03:09 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,35 @@
 
 # define ENV_FILE "./env.file"
 
+enum e_ex_env
+{
+	NORMAL,
+	ENV_START
+};
+
+typedef struct s_ex_env
+{
+	char	*ret;
+	int		s;
+	int		e;
+	int		status;
+}t_ex_env;
+
+typedef struct s_get_env
+{
+	char	*target;
+	char	*tmp;
+	char	*env;
+	char	*ret;
+	int		env_fd;
+}t_get_env;
+
 int		error_handling(char *progname, char *path);
 int		echo(char *s);
 int		cd(char *s);
 int		pwd(void);
 
+char	*expend_env(char *s);
 char	*get_env(char *target);
 char	*dummy_string(void);
 
