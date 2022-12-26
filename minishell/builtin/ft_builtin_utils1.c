@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 13:16:34 by tjo               #+#    #+#             */
-/*   Updated: 2022/12/26 19:16:45 by tjo              ###   ########.fr       */
+/*   Updated: 2022/12/26 19:25:16 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	ft_isalnum(int c)
 	|| ('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z'));
 }
 
-char	*string_concatnation(char *str, t_ex_env *t, int env)
+static char	*string_concatnation(char *str, t_ex_env *t, int env)
 {
 	char	*tmp;
 	char	*env_tmp;
