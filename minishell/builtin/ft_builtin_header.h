@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 11:47:04 by tjo               #+#    #+#             */
-/*   Updated: 2022/12/26 19:46:32 by tjo              ###   ########.fr       */
+/*   Updated: 2022/12/27 17:28:57 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,19 +23,21 @@
 
 # define ENV_FILE "./env.file"
 
-enum e_ex_env
+enum e_parser
 {
 	NORMAL,
-	ENV_START
+	ENV_START,
+	SINGLE,
+	DOUBLE
 };
 
-typedef struct s_ex_env
+typedef struct s_parser
 {
 	char	*ret;
 	int		s;
 	int		e;
 	int		status;
-}t_ex_env;
+}t_parser;
 
 typedef struct s_get_env
 {
@@ -58,5 +60,6 @@ char	*get_env(char *target);
 char	*dummy_string(void);
 
 int		print_all_env(void);
+char	**quote_parser(char *);
 
 #endif
