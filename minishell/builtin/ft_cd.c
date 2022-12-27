@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 12:10:54 by tjo               #+#    #+#             */
-/*   Updated: 2022/12/26 17:47:07 by tjo              ###   ########.fr       */
+/*   Updated: 2022/12/27 16:53:17 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,25 +30,23 @@ static int	home_option(char **s)
 
 	(*s)++;
 	if (*s[0] == '/' || *s[0] == '\0')
-	{
-		chdir(get_env("HOME"));
-		*s += (*s[0] == '/');
-	}
+		path[1] = get_env("HOME");
 	else
 	{
 		idx = find_next(s);
 		path[0] = ft_substr(*s, 0, idx);
 		path[1] = ft_strjoin("/Users/", path[0]);
 		if (!path[0] || !path[1])
-			return (errno = ENOMEM);
-		chk = chdir(path[1]);
-		if (!chk)
-			(*s) += idx + 1;
+			return (1);
 		free(path[0]);
-		free(path[1]);
-		return (chk);
 	}
-	return (0);
+	chk = chdir(path[1]);
+	free(path[1]);
+	if (!chk && (*s[0] == '/' || *s[0] == '\0'))
+		(*s) += (*s[0] == '/');
+	else
+		(*s) += idx + 1;
+	return (chk);
 }
 
 static int	option_check(char **s)
@@ -86,14 +84,11 @@ int	cd(char *s)
 	if (s[0] == '-' && s[1] == '\0')
 		s = prev_path;
 	if (option_check(&s))
-		return (error_handling("cd", s));
+		return (free(now_path), error_handling("cd", s));
 	if (s[0] == '\0')
 		s = NULL;
 	if (s && chdir(s))
-	{
-		free(now_path);
-		return (error_handling("cd", s));
-	}
+		return (free(now_path), error_handling("cd", s));
 	if (s == prev_path)
 		pwd();
 	free(prev_path);
