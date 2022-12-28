@@ -6,13 +6,14 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 12:46:28 by tjo               #+#    #+#             */
-/*   Updated: 2022/12/26 19:46:20 by tjo              ###   ########.fr       */
+/*   Updated: 2022/12/28 16:50:54 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"ft_builtin_header.h"
 
-int	env(void)
+int	env(char **s)
 {
+	// sort?
 	return (print_all_env());
 }
