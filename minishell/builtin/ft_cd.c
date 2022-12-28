@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 12:10:54 by tjo               #+#    #+#             */
-/*   Updated: 2022/12/27 16:53:17 by tjo              ###   ########.fr       */
+/*   Updated: 2022/12/28 19:44:50 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,27 +70,30 @@ static int	option_check(char **s)
 	return (0);
 }
 
-int	cd(char *s)
+int	cd(char **s)
 {
-	static char	*prev_path = 0;
+	static char	*prev_path;
 	char		*now_path;
+	char		*path;
 
+	path = s[1];
+	if (!s[1])
+		path = dummy_string();
 	if (prev_path == 0)
 		prev_path = getcwd(NULL, 0);
 	now_path = getcwd(NULL, 0);
-	if (!now_path)
-		return (error_handling("cd", 0));
-	s += 3;
-	if (s[0] == '-' && s[1] == '\0')
-		s = prev_path;
-	if (option_check(&s))
-		return (free(now_path), error_handling("cd", s));
-	if (s[0] == '\0')
-		s = NULL;
-	if (s && chdir(s))
-		return (free(now_path), error_handling("cd", s));
-	if (s == prev_path)
-		pwd();
+	if (path[0] == '-' && path[1] == '\0')
+		path = prev_path;
+	if (!now_path || option_check(&path))
+		return (free(now_path), error_handling("cd", path));
+	if (path[0] == '\0')
+		path = NULL;
+	if (path && chdir(path))
+		return (free(now_path), error_handling("cd", path));
+	if (path == prev_path)
+		pwd(NULL);
+	if (!s[1])
+		free(path);
 	free(prev_path);
 	prev_path = now_path;
 	return (0);
