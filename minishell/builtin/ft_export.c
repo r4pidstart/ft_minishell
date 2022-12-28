@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 12:46:28 by tjo               #+#    #+#             */
-/*   Updated: 2022/12/28 16:19:17 by tjo              ###   ########.fr       */
+/*   Updated: 2022/12/28 16:43:43 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	export(char **s)
 	{
 		target = make_target(*s);
 		exec_str = ft_strjoin("unset ", target);
-		ret = builtin_executer(exec_str, &unset); // would be modified
+		ret = builtin_executer(exec_str);
 		append_new(*s, target);
 		free(target);
 		free(exec_str);
