@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 19:45:45 by tjo               #+#    #+#             */
-/*   Updated: 2022/12/28 15:34:30 by tjo              ###   ########.fr       */
+/*   Updated: 2022/12/28 19:27:53 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*get_env(char *target)
 
 	st.env = 0;
 	st.target = ft_strjoin(target, "=");
-	st.env_fd = open(ENV_FILE, O_CREAT | O_RDONLY, 0644);
+	st.env_fd = open(ENV_FILE, O_CREAT | O_RDWR, 0644);
 	while (1)
 	{
 		st.tmp = get_next_line(st.env_fd);

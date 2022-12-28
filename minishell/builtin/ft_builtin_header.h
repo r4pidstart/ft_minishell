@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 11:47:04 by tjo               #+#    #+#             */
-/*   Updated: 2022/12/28 19:31:56 by tjo              ###   ########.fr       */
+/*   Updated: 2022/12/28 20:11:15 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int		pwd(char **s);
 int		export(char **s);
 int		env(char **s);
 int		unset(char **s);
+int		ft_exit(char **s);
 
 char	*expend_env(char *s);
 char	*get_env(char *target);

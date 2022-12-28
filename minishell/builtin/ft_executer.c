@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 16:52:15 by tjo               #+#    #+#             */
-/*   Updated: 2022/12/28 16:43:05 by tjo              ###   ########.fr       */
+/*   Updated: 2022/12/28 20:10:54 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	select_builtin_func(char *s, int (**func)(char **))
 	else if (ft_strncmp(s, "env", 4) == 0)
 		*func = &env;
 	else if (ft_strncmp(s, "exit", 5) == 0)
-		*func = &exit;
+		*func = &ft_exit;
 	else
 		*func = NULL;
 }
@@ -53,16 +53,15 @@ int	builtin_executer(char *s)
 }
 
 #include<stdio.h>
-#include<string.h>
-int main(void)
+
+int	main(void)
 {
-	// export("export");
-	while(1)
+	char	test[100000];
+
+	while (1)
 	{
-		char test[100000];
 		scanf(" %[^\n]", test);
 		builtin_executer(test);
-		//pwd();
 		//system("leaks test");
 	}
 }
