@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 17:17:22 by tjo               #+#    #+#             */
-/*   Updated: 2022/12/29 17:40:51 by tjo              ###   ########.fr       */
+/*   Updated: 2022/12/29 17:53:41 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,6 @@ int	fork_execve(char **parsed)
 		envp = get_envp_ptr();
 		exec(parsed, envp);
 	}
-	waitpid(pid, &ret, WNOHANG);
+	waitpid(pid, &ret, 0);
 	return (WEXITSTATUS(ret));
 }
