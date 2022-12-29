@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 12:10:54 by tjo               #+#    #+#             */
-/*   Updated: 2022/12/29 17:01:46 by tjo              ###   ########.fr       */
+/*   Updated: 2022/12/29 17:45:27 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	cd(char **s)
 	now_path = getcwd(NULL, 0);
 	if (path[0] == '-' && path[1] == '\0')
 		path = prev_path;
-	if ((!now_path || option_check(&path)) \
+	if (!(!now_path || option_check(&path)) \
 		&& path && path[0] != '\0' && chdir(path))
 		return (free(now_path), error_handling("cd", 0, path));
 	if (path == prev_path)
