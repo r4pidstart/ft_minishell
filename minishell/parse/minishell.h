@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 12:10:35 by joowpark          #+#    #+#             */
-/*   Updated: 2022/12/29 16:09:08 by tjo              ###   ########.fr       */
+/*   Updated: 2022/12/29 17:14:31 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 # define MINISHELL "minishell: "
 int		init_envp(void);
-char	**get_envp(void);
+char	**get_envp_ptr(void);
 void	free_tree(struct s_node *node);
 int		do_cmds(char **tokens);
 int		parse_cmd(char **tokens, char *cmd, int *nr_tokens);

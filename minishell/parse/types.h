@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 12:14:32 by joowpark          #+#    #+#             */
-/*   Updated: 2022/12/29 15:48:16 by tjo              ###   ########.fr       */
+/*   Updated: 2022/12/29 16:49:00 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@
 # include <signal.h>
 # include <unistd.h>
 # include <readline/readline.h>
-# include "libfta/libft.h"
+# include "../ft_mylibft/libft.h"
 # include <fcntl.h>
 
 
 # define ENVP "/.envp"
-# define BUFFER_SIZE 100
+# define BUF_SIZE 100
 char	*ft_strstrim(char *line);
 char	*ft_strndup(char *line, size_t pos);
 

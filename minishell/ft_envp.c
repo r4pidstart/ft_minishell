@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 15:52:53 by tjo               #+#    #+#             */
-/*   Updated: 2022/12/29 15:57:25 by tjo              ###   ########.fr       */
+/*   Updated: 2022/12/29 17:14:07 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	init_envp(void)
 	return (0);
 }
 
-char	**get_envp(void)
+char	**get_envp_ptr(void)
 {
 	ssize_t	byte;
 	char	*ret;
@@ -72,14 +72,14 @@ char	**get_envp(void)
 	if (fd < 0)
 		return (NULL);
 	byte = 0;
-	buffer = (char *)malloc(sizeof(*buffer) * (BUFFER_SIZE + 1));
+	buffer = (char *)malloc(sizeof(*buffer) * (BUF_SIZE + 1));
 	ret = ft_strdup("");
 	while (ret && buffer)
 	{
-		byte = read(fd, buffer, BUFFER_SIZE);
+		byte = read(fd, buffer, BUF_SIZE);
 		if (byte <= 0)
 			break ;
-		buffer[BUFFER_SIZE] = 0;
+		buffer[BUF_SIZE] = 0;
 		old = ret;
 		ret = ft_strjoin(old, buffer);
 		free(old);
