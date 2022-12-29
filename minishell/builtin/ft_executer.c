@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 16:52:15 by tjo               #+#    #+#             */
-/*   Updated: 2022/12/29 16:27:50 by tjo              ###   ########.fr       */
+/*   Updated: 2022/12/29 17:25:20 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,17 @@ int	builtin_executer(char *s)
 	int		ret;
 	int		(*func)(char **);
 
+	// if redirect?
 	parsed = quote_parser(s);
 	select_builtin_func(parsed[0], &func);
 	if (func)
 		ret = func(parsed);
 	else
-		return (1); // no matching function -> execve
+		ret = fork_exceve(parsed);
 	ptr = parsed;
 	while (*ptr)
 		free(*(ptr++));
 	free(parsed);
+	system("leaks $PPID");
 	return (ret);
 }
