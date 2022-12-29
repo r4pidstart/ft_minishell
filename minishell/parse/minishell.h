@@ -1,26 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/26 12:54:38 by tjo               #+#    #+#             */
-/*   Updated: 2022/12/29 16:33:56 by tjo              ###   ########.fr       */
+/*   Created: 2022/12/22 12:10:35 by joowpark          #+#    #+#             */
+/*   Updated: 2022/12/29 16:09:08 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"ft_builtin_header.h"
+#ifndef MINISHELL_H
+# define MINISHELL_H
 
-int	pwd(char **s)
-{
-	char	*ret;
+# include "types.h"
+# include "astree.h"
+# include "parse.h"
 
-	(void)s;
-	ret = getcwd(NULL, 0);
-	if (ret == 0)
-		return (error_handling("pwd", 0, 0));
-	ft_printf("%s\n", ret);
-	free(ret);
-	return (0);
-}
+# define MINISHELL "minishell: "
+int		init_envp(void);
+char	**get_envp(void);
+void	free_tree(struct s_node *node);
+int		do_cmds(char **tokens);
+int		parse_cmd(char **tokens, char *cmd, int *nr_tokens);
+
+#endif

@@ -1,26 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   ft_main.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/26 12:54:38 by tjo               #+#    #+#             */
-/*   Updated: 2022/12/29 16:33:56 by tjo              ###   ########.fr       */
+/*   Created: 2022/12/28 11:37:16 by joowpark          #+#    #+#             */
+/*   Updated: 2022/12/29 15:51:36 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"ft_builtin_header.h"
+#include "ft_main_header.h"
+#include <readline/history.h>
+#include <readline/readline.h>
 
-int	pwd(char **s)
+int	main()
 {
-	char	*ret;
+	char	*cmd;
+	char	**tokens;
+	int		nr_tokens;
 
-	(void)s;
-	ret = getcwd(NULL, 0);
-	if (ret == 0)
-		return (error_handling("pwd", 0, 0));
-	ft_printf("%s\n", ret);
-	free(ret);
+	if (init_envp())
+		return (0);
+	while (1)
+	{
+		cmd = readline(MINISHELL);
+		tokens = malloc(sizeof(*tokens) * (ft_strlen(cmd) + 1));
+		if (parse_cmd(tokens, cmd, &nr_tokens))
+			break ;
+		do_cmds(tokens);
+		free(tokens);
+	}
 	return (0);
 }

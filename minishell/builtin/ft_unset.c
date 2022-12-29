@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 15:53:16 by tjo               #+#    #+#             */
-/*   Updated: 2022/12/28 15:59:02 by tjo              ###   ########.fr       */
+/*   Updated: 2022/12/29 15:59:02 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static int	delete_env(char *s)
 	t_list	*envlist;
 	char	*tmp;
 
-	env_fd = open(ENV_FILE, O_CREAT | O_RDONLY, 0644);
+	env_fd = open(get_env_path(), O_CREAT | O_RDONLY, 0644);
 	envlist = 0;
 	while (1)
 	{
@@ -66,8 +66,8 @@ static int	delete_env(char *s)
 		ft_lstadd_back(&envlist, ft_lstnew(tmp));
 	}
 	close(env_fd);
-	unlink(ENV_FILE);
-	env_fd = open(ENV_FILE, O_CREAT | O_TRUNC | O_WRONLY, 0644);
+	unlink(get_env_path());
+	env_fd = open(get_env_path(), O_CREAT | O_TRUNC | O_WRONLY, 0644);
 	write_env(envlist, env_fd, s);
 	close(env_fd);
 	return (0);

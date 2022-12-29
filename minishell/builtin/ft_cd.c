@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 12:10:54 by tjo               #+#    #+#             */
-/*   Updated: 2022/12/28 19:44:50 by tjo              ###   ########.fr       */
+/*   Updated: 2022/12/29 16:34:11 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static int	home_option(char **s)
 	free(path[1]);
 	if (!chk && (*s[0] == '/' || *s[0] == '\0'))
 		(*s) += (*s[0] == '/');
-	else
+	else if (!chk)
 		(*s) += idx + 1;
 	return (chk);
 }
@@ -85,11 +85,11 @@ int	cd(char **s)
 	if (path[0] == '-' && path[1] == '\0')
 		path = prev_path;
 	if (!now_path || option_check(&path))
-		return (free(now_path), error_handling("cd", path));
+		return (free(now_path), error_handling("cd", 0, path));
 	if (path[0] == '\0')
 		path = NULL;
 	if (path && chdir(path))
-		return (free(now_path), error_handling("cd", path));
+		return (free(now_path), error_handling("cd", 0, path));
 	if (path == prev_path)
 		pwd(NULL);
 	if (!s[1])

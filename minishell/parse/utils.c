@@ -1,26 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/26 12:54:38 by tjo               #+#    #+#             */
-/*   Updated: 2022/12/29 16:33:56 by tjo              ###   ########.fr       */
+/*   Created: 2022/12/22 13:42:08 by joowpark          #+#    #+#             */
+/*   Updated: 2022/12/29 15:57:34 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"ft_builtin_header.h"
+#include "types.h"
 
-int	pwd(char **s)
+char	*get_envp(char *line, char **envp)
 {
-	char	*ret;
-
-	(void)s;
-	ret = getcwd(NULL, 0);
-	if (ret == 0)
-		return (error_handling("pwd", 0, 0));
-	ft_printf("%s\n", ret);
-	free(ret);
-	return (0);
+	while (*envp)
+	{
+		if (ft_strncmp(line, *envp, ft_strlen(line)) == 0)
+			return (*envp + ft_strlen(line));
+	}
+	return (NULL);
 }

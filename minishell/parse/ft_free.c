@@ -1,26 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   ft_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
+/*   By: joowpark <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/26 12:54:38 by tjo               #+#    #+#             */
-/*   Updated: 2022/12/29 16:33:56 by tjo              ###   ########.fr       */
+/*   Created: 2022/12/26 12:53:26 by joowpark          #+#    #+#             */
+/*   Updated: 2022/12/28 15:22:38 by joowpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"ft_builtin_header.h"
+#include "minishell.h"
 
-int	pwd(char **s)
+void	free_tree(struct s_node *node)
 {
-	char	*ret;
+	struct s_node	*left;
+	struct s_node	*right;
 
-	(void)s;
-	ret = getcwd(NULL, 0);
-	if (ret == 0)
-		return (error_handling("pwd", 0, 0));
-	ft_printf("%s\n", ret);
-	free(ret);
-	return (0);
+	left = node->left;
+	right = node->right;
+	free(node);
+	if (left)
+		free_tree(left);
+	if (right)
+		free_tree(right);
 }

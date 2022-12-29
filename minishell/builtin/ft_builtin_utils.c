@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_builtin_utils2.c                                :+:      :+:    :+:   */
+/*   ft_builtin_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 19:45:45 by tjo               #+#    #+#             */
-/*   Updated: 2022/12/28 19:27:53 by tjo              ###   ########.fr       */
+/*   Updated: 2022/12/29 15:59:17 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*get_env(char *target)
 
 	st.env = 0;
 	st.target = ft_strjoin(target, "=");
-	st.env_fd = open(ENV_FILE, O_CREAT | O_RDWR, 0644);
+	st.env_fd = open(get_env_path(), O_CREAT | O_RDWR, 0644);
 	while (1)
 	{
 		st.tmp = get_next_line(st.env_fd);
@@ -56,7 +56,7 @@ int	print_all_env(void)
 	int		env_fd;
 	char	*env;
 
-	env_fd = open(ENV_FILE, O_CREAT | O_RDONLY, 0644);
+	env_fd = open(get_env_path(), O_CREAT | O_RDONLY, 0644);
 	while (1)
 	{
 		env = get_next_line(env_fd);

@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 16:52:15 by tjo               #+#    #+#             */
-/*   Updated: 2022/12/28 20:10:54 by tjo              ###   ########.fr       */
+/*   Updated: 2022/12/29 16:27:50 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,25 +43,11 @@ int	builtin_executer(char *s)
 	select_builtin_func(parsed[0], &func);
 	if (func)
 		ret = func(parsed);
+	else
+		return (1); // no matching function -> execve
 	ptr = parsed;
 	while (*ptr)
 		free(*(ptr++));
 	free(parsed);
-	if (!func)
-		return (1); // no matching function
 	return (ret);
-}
-
-#include<stdio.h>
-
-int	main(void)
-{
-	char	test[100000];
-
-	while (1)
-	{
-		scanf(" %[^\n]", test);
-		builtin_executer(test);
-		//system("leaks test");
-	}
 }

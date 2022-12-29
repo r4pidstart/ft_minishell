@@ -1,26 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   types.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/26 12:54:38 by tjo               #+#    #+#             */
-/*   Updated: 2022/12/29 16:33:56 by tjo              ###   ########.fr       */
+/*   Created: 2022/12/22 12:14:32 by joowpark          #+#    #+#             */
+/*   Updated: 2022/12/29 15:48:16 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"ft_builtin_header.h"
+#ifndef TYPES_H
+# define TYPES_H
 
-int	pwd(char **s)
-{
-	char	*ret;
+# include <stdio.h>
+# include <stdlib.h>
+# include <string.h>
+# include <signal.h>
+# include <unistd.h>
+# include <readline/readline.h>
+# include "libfta/libft.h"
+# include <fcntl.h>
 
-	(void)s;
-	ret = getcwd(NULL, 0);
-	if (ret == 0)
-		return (error_handling("pwd", 0, 0));
-	ft_printf("%s\n", ret);
-	free(ret);
-	return (0);
-}
+
+# define ENVP "/.envp"
+# define BUFFER_SIZE 100
+char	*ft_strstrim(char *line);
+char	*ft_strndup(char *line, size_t pos);
+
+#endif

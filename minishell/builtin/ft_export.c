@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 12:46:28 by tjo               #+#    #+#             */
-/*   Updated: 2022/12/28 16:43:43 by tjo              ###   ########.fr       */
+/*   Updated: 2022/12/29 16:37:56 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	append_new(char *s, char *target)
 {
 	int	env_fd;
 
-	env_fd = open(ENV_FILE, O_WRONLY | O_APPEND | O_CREAT, 0644);
+	env_fd = open(get_env_path(), O_WRONLY | O_APPEND | O_CREAT, 0644);
 	if (s[ft_strlen(target)] == '\0')
 		ft_fprintf(env_fd, "%s=''\n", target);
 	else
@@ -55,6 +55,6 @@ int	export(char **s)
 		s++;
 	}
 	if (ret != 1)
-		return (ret);
+		return (error_handling("export", 0, 0));
 	return (0);
 }

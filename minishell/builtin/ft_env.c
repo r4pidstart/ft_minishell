@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 12:46:28 by tjo               #+#    #+#             */
-/*   Updated: 2022/12/28 20:52:28 by tjo              ###   ########.fr       */
+/*   Updated: 2022/12/29 15:59:31 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int	make_envlist(t_list **envlist)
 	char	*tmp;
 	int		env_fd;
 
-	env_fd = open(ENV_FILE, O_CREAT | O_RDONLY, 0644);
+	env_fd = open(get_env_path(), O_CREAT | O_RDONLY, 0644);
 	*envlist = 0;
 	while (1)
 	{

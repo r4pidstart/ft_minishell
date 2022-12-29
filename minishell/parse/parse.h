@@ -1,26 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   parse.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
+/*   By: joowpark <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/26 12:54:38 by tjo               #+#    #+#             */
-/*   Updated: 2022/12/29 16:33:56 by tjo              ###   ########.fr       */
+/*   Created: 2022/12/28 11:20:41 by joowpark          #+#    #+#             */
+/*   Updated: 2022/12/28 11:21:58 by joowpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"ft_builtin_header.h"
+#ifndef PARSE_H
+# define PARSE_H
 
-int	pwd(char **s)
-{
-	char	*ret;
+# include "types.h"
+# define DELTOKEN "<>|"
 
-	(void)s;
-	ret = getcwd(NULL, 0);
-	if (ret == 0)
-		return (error_handling("pwd", 0, 0));
-	ft_printf("%s\n", ret);
-	free(ret);
-	return (0);
-}
+#endif 

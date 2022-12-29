@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 11:47:04 by tjo               #+#    #+#             */
-/*   Updated: 2022/12/28 20:11:15 by tjo              ###   ########.fr       */
+/*   Updated: 2022/12/29 16:31:36 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,7 @@
 # include<errno.h>
 # include<string.h>
 # include<fcntl.h>
-# include"ft_mylibft/libft.h"
-
-# define ENV_FILE "/Users/jotaesik/ft_minishell/minishell/builtin/env.file"
+# include"../ft_mylibft/libft.h"
 
 enum e_parser
 {
@@ -49,7 +47,7 @@ typedef struct s_get_env
 }t_get_env;
 
 int		builtin_executer(char *s);
-int		error_handling(char *progname, char *path);
+int		error_handling(char *progname, char *custom_msg, char *path);
 
 int		echo(char **s);
 int		cd(char **s);
@@ -65,5 +63,7 @@ char	*dummy_string(void);
 
 int		print_all_env(void);
 char	**quote_parser(char *s);
+
+char	*get_env_path(void);
 
 #endif
