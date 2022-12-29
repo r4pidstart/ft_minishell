@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 11:47:04 by tjo               #+#    #+#             */
-/*   Updated: 2022/12/29 17:18:08 by tjo              ###   ########.fr       */
+/*   Updated: 2022/12/29 17:41:47 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ typedef struct s_get_env
 int		builtin_executer(char *s);
 int		error_handling(char *progname, char *custom_msg, char *path);
 
-int		fork_exceve(char **parsed);
+int		fork_execve(char **parsed);
 
 int		echo(char **s);
 int		cd(char **s);
@@ -67,6 +67,7 @@ int		print_all_env(void);
 char	**quote_parser(char *s);
 
 // ../t_envp.c
+char	**get_envp_ptr(void);
 char	*get_env_path(void);
 char	**get_envp(void);
 

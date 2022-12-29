@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_fork_exceve.c                                   :+:      :+:    :+:   */
+/*   ft_fork_execve.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 17:17:22 by tjo               #+#    #+#             */
-/*   Updated: 2022/12/29 17:35:39 by tjo              ###   ########.fr       */
+/*   Updated: 2022/12/29 17:40:51 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@ static char	*find_path(char *target)
 {
 	int		idx;
 	char	**paths;
-	char	**tmp[3];
+	char	*tmp[3];
 
 	paths = ft_split(get_env("PATH"), ':');
 	if (!paths)
-		return (!!error_handling("execve", 0, 0));
+		return (0);
 	idx = 0;
 	tmp[2] = 0;
 	while (paths[idx])
@@ -53,7 +53,7 @@ static void	exec(char **args, char **envp)
 		error_handling("execve", 0, 0);
 }
 
-int	fork_exceve(char **parsed)
+int	fork_execve(char **parsed)
 {
 	char	**envp;
 	pid_t	pid;
@@ -62,7 +62,7 @@ int	fork_exceve(char **parsed)
 	pid = fork();
 	if (pid == 0)
 	{
-		envp = get_env_path();
+		envp = get_envp_ptr();
 		exec(parsed, envp);
 	}
 	waitpid(pid, &ret, WNOHANG);

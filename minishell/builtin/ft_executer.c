@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 16:52:15 by tjo               #+#    #+#             */
-/*   Updated: 2022/12/29 17:25:20 by tjo              ###   ########.fr       */
+/*   Updated: 2022/12/29 17:37:20 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	builtin_executer(char *s)
 	if (func)
 		ret = func(parsed);
 	else
-		ret = fork_exceve(parsed);
+		ret = fork_execve(parsed);
 	ptr = parsed;
 	while (*ptr)
 		free(*(ptr++));

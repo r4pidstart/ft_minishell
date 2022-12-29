@@ -6,7 +6,7 @@
 #    By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/31 12:48:31 by tjo               #+#    #+#              #
-#    Updated: 2022/12/29 16:36:29 by tjo              ###   ########.fr        #
+#    Updated: 2022/12/29 17:37:58 by tjo              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ SRCS_PARSE = astree.c astree_utils.c ft_free.c ft_str_utils.c \
 	  do_cmds.c init.c parse_cmd.c
 SRCS_BUILTIN = ft_unset.c ft_quoteparse1.c ft_quoteparse2.c ft_executer.c \
 	ft_error.c ft_cd.c ft_echo.c ft_pwd.c ft_builtin_utils.c \
-	ft_exit.c ft_env.c ft_export.c
+	ft_exit.c ft_env.c ft_export.c ft_fork_execve.c
 
 MAIN = ft_main.c ft_envp.c
 
