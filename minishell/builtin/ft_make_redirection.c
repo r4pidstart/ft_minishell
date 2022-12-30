@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 18:04:43 by tjo               #+#    #+#             */
-/*   Updated: 2022/12/30 17:09:02 by tjo              ###   ########.fr       */
+/*   Updated: 2022/12/30 17:45:16 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,25 @@
 
 static int	__redirection_output(char *target, int append)
 {
-	int		new_fd;
+	int	new_fd;
+	int	ret;
 
 	new_fd = open(target, O_WRONLY | O_APPEND \
-		| append * O_TRUNC | O_CREAT, 0644);
-	return (dup2(new_fd, STDOUT_FILENO));
+		| !append * O_TRUNC | O_CREAT, 0644);
+	ret = dup2(new_fd, STDOUT_FILENO);
+	close(new_fd);
+	return (ret);
 }
 
 static int	__redirection_input(char *target)
 {
 	int	new_fd;
+	int	ret;
 
 	new_fd = open(target, O_RDONLY | O_CREAT, 0644);
-	return (dup2(new_fd, STDIN_FILENO));
+	ret = dup2(new_fd, STDIN_FILENO);
+	close(new_fd);
+	return (ret);
 }
 
 static int	__redirection_heredoc(char *limiter)
@@ -35,7 +41,6 @@ static int	__redirection_heredoc(char *limiter)
 	int		lim_l;
 	char	*tmpline;
 
-	// heredoc check needed to remove tmp file
 	fd = open(get_heredoc_path(), O_CREAT | O_TRUNC | O_RDWR, 0644);
 	if (fd < 0)
 		return (1);
