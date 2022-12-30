@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 20:10:35 by tjo               #+#    #+#             */
-/*   Updated: 2022/12/29 16:34:48 by tjo              ###   ########.fr       */
+/*   Updated: 2022/12/30 17:51:23 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_exit(char **s)
 
 	ft_printf("exit\n");
 	if (s[1] == NULL)
-		exit(1);
+		exit(0);
 	chk = 0;
 	tmp = ft_atoi_check(s[1], &chk);
 	if (chk)
