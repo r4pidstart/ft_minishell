@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 16:52:15 by tjo               #+#    #+#             */
-/*   Updated: 2022/12/30 17:05:53 by tjo              ###   ########.fr       */
+/*   Updated: 2022/12/30 17:38:14 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	builtin_executer(char *s)
 
 	// return (ft_printf("%s\n", s));
 	parsed = quote_parser(s);
-	if (parsed[0][0] == "<" || parsed[0][0] == ">")
+	if (parsed[0][0] == '<' || parsed[0][0] == '>')
 		make_redirection(parsed);
 	else
 	{

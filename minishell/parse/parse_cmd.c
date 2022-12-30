@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 13:09:42 by joowpark          #+#    #+#             */
-/*   Updated: 2022/12/29 15:50:52 by tjo              ###   ########.fr       */
+/*   Updated: 2022/12/30 17:37:40 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static char	*get_file_name(char *cmd, char **line)
 
 	while (ft_isspace(*cmd))
 		cmd ++;
-	while (!ft_isspace(*cmd) && *cmd != '<' && *cmd != '|' && *cmd != '>')
+	while (!ft_isspace(*cmd) && *cmd != '<' && *cmd != '|' && *cmd != '>' && *cmd)
 		cmd ++;
 	ret = ft_strndup(*line,  cmd - *line);
 	*line = cmd;

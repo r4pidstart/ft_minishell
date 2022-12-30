@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 18:04:43 by tjo               #+#    #+#             */
-/*   Updated: 2022/12/30 17:05:36 by tjo              ###   ########.fr       */
+/*   Updated: 2022/12/30 17:09:02 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ static int	__redirection(char *target, int type)
 	char	*trimmed_target;
 
 	trimmed_target = ft_strtrim(target, " \n\r\t");
+	if (!trimmed_target || !target)
+		return (1);
 	if (type == R_OUTPUT || type == R_APPEND)
 		ret = __redirection_output(trimmed_target, type == R_APPEND);
 	else if (type == R_INPUT)
