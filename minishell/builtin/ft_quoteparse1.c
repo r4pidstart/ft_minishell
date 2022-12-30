@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/27 17:05:53 by tjo               #+#    #+#             */
-/*   Updated: 2022/12/27 18:37:09 by tjo              ###   ########.fr       */
+/*   Updated: 2022/12/30 18:21:14 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ char	*expend_env(char *s)
 	{
 		if (st.status == ENV_START && s[st.s] == '{')
 			st.e++;
-		else if (st.status == ENV_START && (!ft_isalnum(s[st.s])))
+		else if (st.status == ENV_START && \
+			(!ft_isalnum(s[st.s]) && s[st.s] != '?'))
 			expend_concat(s, &st, 0);
 		else if (st.status == NORMAL && s[st.s] == '$')
 			expend_concat(s, &st, 1);

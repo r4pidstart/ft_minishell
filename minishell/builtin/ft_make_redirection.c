@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 18:04:43 by tjo               #+#    #+#             */
-/*   Updated: 2022/12/30 17:45:16 by tjo              ###   ########.fr       */
+/*   Updated: 2022/12/30 18:44:01 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ static int	__redirection_heredoc(char *limiter)
 	fd = open(get_heredoc_path(), O_CREAT | O_TRUNC | O_RDWR, 0644);
 	if (fd < 0)
 		return (1);
+	ft_fprintf(STDOUT_BACKUP, "heredoc> ");
 	tmpline = get_next_line(0);
 	if (!tmpline)
 		return (1);
@@ -51,12 +52,14 @@ static int	__redirection_heredoc(char *limiter)
 	while (ft_strncmp(limiter, tmpline, lim_l) || tmpline[lim_l] != '\n')
 	{
 		ft_fprintf(fd, "%s", tmpline);
+		ft_fprintf(STDOUT_BACKUP, "heredoc> ");
 		free(tmpline);
 		tmpline = get_next_line(0);
 		if (!tmpline)
 			return (1);
 	}
 	close(fd);
+	__redirection_input(get_heredoc_path());
 	return (0);
 }
 

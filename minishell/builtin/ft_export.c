@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 12:46:28 by tjo               #+#    #+#             */
-/*   Updated: 2022/12/29 16:37:56 by tjo              ###   ########.fr       */
+/*   Updated: 2022/12/30 18:13:46 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,24 @@ static int	append_new(char *s, char *target)
 	return (0);
 }
 
+static int	unset_target(char *target)
+{
+	char	**tmp;
+
+	tmp = (char **)malloc(sizeof(char **) * 3);
+	if (!tmp)
+		return (1);
+	tmp[0] = "export";
+	tmp[1] = target;
+	tmp[2] = 0;
+	unset(tmp);
+	free(tmp);
+	return (0);
+}
+
 int	export(char **s)
 {
 	int		ret;
-	char	*exec_str;
 	char	*target;
 
 	if (s[1] == 0)
@@ -47,14 +61,12 @@ int	export(char **s)
 	while (*s)
 	{
 		target = make_target(*s);
-		exec_str = ft_strjoin("unset ", target);
-		ret = builtin_executer(exec_str);
+		ret = unset_target(target);
 		append_new(*s, target);
 		free(target);
-		free(exec_str);
 		s++;
 	}
-	if (ret != 1)
+	if (ret != 0)
 		return (error_handling("export", 0, 0));
 	return (0);
 }

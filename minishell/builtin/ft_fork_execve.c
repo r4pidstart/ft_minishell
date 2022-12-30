@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 17:17:22 by tjo               #+#    #+#             */
-/*   Updated: 2022/12/29 17:53:41 by tjo              ###   ########.fr       */
+/*   Updated: 2022/12/30 18:37:11 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,16 @@ static void	exec(char **args, char **envp)
 
 	if (access(args[0], X_OK) == 0)
 		if (execve(args[0], args, envp) == -1)
-			error_handling("minishell: execve", 0, args[0]);
+			exit(error_handling("minishell: execve", 0, args[0]));
 	tmp = find_path(args[0]);
 	if (!tmp)
-		error_handling("minishell: execve", 0, args[0]);
+		exit(error_handling("minishell: execve", 0, args[0]));
 	free(args[0]);
 	args[0] = ft_strdup(tmp);
-	if (execve(args[0], args, envp) == -1)
-		error_handling("execve", 0, 0);
+	if (access(args[0], X_OK) == 0)
+		if (execve(args[0], args, envp) == -1)
+			exit(error_handling("execve", 0, 0));
+	exit(1);
 }
 
 int	fork_execve(char **parsed)
