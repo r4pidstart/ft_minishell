@@ -6,11 +6,20 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 19:45:45 by tjo               #+#    #+#             */
-/*   Updated: 2022/12/29 15:59:17 by tjo              ###   ########.fr       */
+/*   Updated: 2022/12/30 17:02:30 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"ft_builtin_header.h"
+
+char	*get_heredoc_path(void)
+{
+	static char	*path;
+
+	if (!path)
+		path = ft_strjoin(getenv("HOME"), "/.heredoc_tmp");
+	return (path);
+}
 
 char	*dummy_string(void)
 {
