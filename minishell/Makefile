@@ -6,7 +6,7 @@
 #    By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/31 12:48:31 by tjo               #+#    #+#              #
-#    Updated: 2023/01/04 00:32:42 by tjo              ###   ########.fr        #
+#    Updated: 2023/01/04 00:54:42 by tjo              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,18 +26,24 @@ SRCS_BUILTIN = ft_unset.c ft_quoteparse1.c ft_quoteparse2.c ft_executer.c \
 	ft_exit.c ft_env.c ft_export.c ft_fork_execve.c ft_make_redirection.c \
 	ft_pipe.c
 
-__LDFLAGS="-L$(HOME)/.brew/opt/readline/lib"
-__CPPFLAGS="-I/$(HOME)/.brew/opt/readline/include"
+uname := $(shell uname -p)
+ifeq ($(uname), arm)
+	__LDFLAGS="-L/opt/homebrew/opt/readline/lib"
+	__CPPFLAGS="-I/opt/homebrew/opt/readline/include"
+else
+	__LDFLAGS="-L$(HOME)/.brew/opt/readline/lib"
+	__CPPFLAGS="-I/$(HOME)/.brew/opt/readline/include"
+endif
 
 MAIN = ft_main.c ft_envp.c
 
-ifdef BONUS
-	NAME = pipex
-	FOLDER = bonus/
-	SRCS = ft_main_bonus.c ft_piping_bonus.c
-else
-	FOLDER =
-endif
+# ifdef BONUS
+# 	NAME = 
+# 	FOLDER = bonus/
+# 	SRCS = 
+# else
+# 	FOLDER =
+# endif
 
 all: $(NAME)
 
@@ -48,13 +54,14 @@ $(NAME): $(LIBFT) $(MAIN:.c:.o) $(addprefix $(PARSE_FOLDER), $(SRCS_PARSE:.c=.o)
 	$(addprefix $(PARSE_FOLDER), $(SRCS_PARSE)) \
 	$(addprefix $(BUILTIN_FOLDER), $(SRCS_BUILTIN)) \
 	-L$(LIBFT_SRCS) -lft  -lreadline $(__LDFLAGS) $(__CPPFLAGS)
-	$(MAKE) clean
+	# $(MAKE) clean
 
 $(LIBFT):
 	make -C $(LIBFT_SRCS) all
 
 %.o: %.c
-	cc $(CFLAGS) -c $^ -o $@ 
+	cc $(CFLAGS) -c $^ -o $@
+
 bonus:
 	$(MAKE) BONUS=1
 
@@ -68,5 +75,6 @@ fclean: clean
 	make fclean -C $(LIBFT_SRCS)
 
 re: fclean all
+	make re -C $(LIBFT_SRCS)
 
 .PHONY: bonus all clean fclean re
