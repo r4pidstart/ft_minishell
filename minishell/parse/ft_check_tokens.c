@@ -1,23 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   ft_check_tokens.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
+/*   By: joowpark <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/22 13:42:08 by joowpark          #+#    #+#             */
-/*   Updated: 2022/12/29 15:57:34 by tjo              ###   ########.fr       */
+/*   Created: 2023/01/03 09:16:53 by joowpark          #+#    #+#             */
+/*   Updated: 2023/01/03 10:37:14 by joowpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "types.h"
 
-char	*get_envp(char *line, char **envp)
+int	check_pipe(char **lines)
 {
-	while (*envp)
+	char	**tokens;
+
+	tokens = lines;
+	while (*tokens)
 	{
-		if (ft_strncmp(line, *envp, ft_strlen(line)) == 0)
-			return (*envp + ft_strlen(line));
+		if (**tokens == '|')
+		{
+			if (!*(tokens + 1) || **(tokens + 1) == '|')
+				return (1);
+		}
+		tokens += 1;
 	}
-	return (NULL);
+	return (0);
 }

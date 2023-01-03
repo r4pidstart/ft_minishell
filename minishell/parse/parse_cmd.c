@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 13:09:42 by joowpark          #+#    #+#             */
-/*   Updated: 2022/12/30 17:37:40 by tjo              ###   ########.fr       */
+/*   Updated: 2023/01/03 09:34:26 by joowpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,10 @@ static char	*get_file_name(char *cmd, char **line)
 
 	while (ft_isspace(*cmd))
 		cmd ++;
-	while (!ft_isspace(*cmd) && *cmd != '<' && *cmd != '|' && *cmd != '>' && *cmd)
+	while (!ft_isspace(*cmd) && *cmd != '<'
+		&& *cmd != '|' && *cmd != '>' && *cmd)
 		cmd ++;
-	ret = ft_strndup(*line,  cmd - *line);
+	ret = ft_strndup(*line, cmd - *line);
 	*line = cmd;
 	return (ret);
 }
@@ -52,15 +53,9 @@ static char	*get_redir_pipe(char **line)
 static void	cmgxg(int *is_gal, char *cmd)
 {
 	if (*is_gal == 0)
-	{
 		*is_gal = *cmd;
-		*cmd = ' ';
-	}
 	else if (*cmd == *is_gal)
-	{
 		*is_gal = 0;
-		*cmd = ' ';
-	}
 }
 
 char	*get_cmd(char **line)
@@ -106,5 +101,10 @@ int	parse_cmd(char **tokens, char *cmd, int *nr_tokens)
 		line = ft_strstrim(line);
 	}
 	tokens[*nr_tokens] = NULL;
+	if (check_pipe(tokens))
+	{
+		write(2,"minishell: parse error near `|'\n",35);
+		return (1);
+	}
 	return (*nr_tokens < 0);
 }

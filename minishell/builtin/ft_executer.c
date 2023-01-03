@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 16:52:15 by tjo               #+#    #+#             */
-/*   Updated: 2022/12/30 18:37:30 by tjo              ###   ########.fr       */
+/*   Updated: 2023/01/03 15:02:06 by joowpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,31 +53,43 @@ static int	exit_code_export(int ret)
 	return (0);
 }
 
-int	builtin_executer(char *s)
+int	builtin_executer(struct s_node *node, char *s, int is_in_pipe)
 {
 	char	**parsed;
 	char	**ptr;
 	int		ret;
 	int		(*func)(char **);
 
-	// return (ft_printf("%s\n", s));
 	ret = 0;
+	node->type = node->type;
 	parsed = quote_parser(s);
 	if (parsed[0][0] == '<' || parsed[0][0] == '>')
-		make_redirection(parsed);
+		ret = make_redirection(parsed);
+	else if (node->type == PIPE)
+		ret = make_pipe(node);
 	else
 	{
 		select_builtin_func(parsed[0], &func);
 		if (func)
+		{
 			ret = func(parsed);
+			if (is_in_pipe)
+				exit(ret);
+		}
 		else
-			ret = fork_execve(parsed);
+		{
+			if (!is_in_pipe)
+				ret = fork_execve(parsed);
+			else
+				ret = non_fork_execve(parsed);
+		}
 	}
+	if (ret && (*parsed[0] == '<' || *parsed[0] == '>'))
+		return (error_handling("minishell: ", "syntax error near unexpected token ", "\\n"));
 	exit_code_export(ret);
 	ptr = parsed;
 	while (*ptr)
 		free(*(ptr++));
 	free(parsed);
-	// system("leaks $PPID");
 	return (ret);
 }

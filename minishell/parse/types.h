@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 12:14:32 by joowpark          #+#    #+#             */
-/*   Updated: 2022/12/29 16:49:00 by tjo              ###   ########.fr       */
+/*   Updated: 2023/01/02 09:20:50 by joowpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@
 # include "../ft_mylibft/libft.h"
 # include <fcntl.h>
 
-
 # define ENVP "/.envp"
 # define BUF_SIZE 100
+
 char	*ft_strstrim(char *line);
 char	*ft_strndup(char *line, size_t pos);
 

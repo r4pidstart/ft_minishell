@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 19:45:45 by tjo               #+#    #+#             */
-/*   Updated: 2022/12/30 17:02:30 by tjo              ###   ########.fr       */
+/*   Updated: 2023/01/03 15:29:52 by joowpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*get_env(char *target)
 
 	st.env = 0;
 	st.target = ft_strjoin(target, "=");
-	st.env_fd = open(get_env_path(), O_CREAT | O_RDWR, 0644);
+	st.env_fd = open(get_env_path(), O_CREAT | O_RDWR, 0644); // ??
 	while (1)
 	{
 		st.tmp = get_next_line(st.env_fd);

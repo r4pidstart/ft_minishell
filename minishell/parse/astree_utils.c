@@ -6,27 +6,28 @@
 /*   By: joowpark <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 13:00:51 by joowpark          #+#    #+#             */
-/*   Updated: 2022/12/28 16:15:52 by joowpark         ###   ########.fr       */
+/*   Updated: 2023/01/02 09:20:24 by joowpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "astree.h"
 
-static void	__astree_insert_redir(struct s_node *node, char *line, char *check)
+static void	__astree_insert_redir(struct s_node *r, struct s_node *node,
+		char *line, char *check)
 {
 	if (*check)
 		;
 	if (node->left && !node->right)
 	{
-		node->right = ft_alloc_node(NULL, REDIRECT);
+		node->right = ft_alloc_node(NULL, REDIRECT, r);
 		if (!node->right)
 			*check = 1;
 	}
 	if (node->left)
-		__astree_insert_redir(node->right, line, check);
+		__astree_insert_redir(r, node->right, line, check);
 	else if (!node->left)
 	{
-		node->left = ft_alloc_node(line, REDIRECT);
+		node->left = ft_alloc_node(line, REDIRECT, r);
 		if (!node->left)
 			*check = 1;
 		return ;
@@ -43,10 +44,10 @@ static int	astree_insert_redir(struct s_node *root, char *line)
 	if (!node)
 		return (1);
 	if (!node->left)
-		node->left = ft_alloc_node(NULL, REDIRECTS);
+		node->left = ft_alloc_node(NULL, REDIRECTS, root);
 	if (!node->left)
 		return (1);
-	__astree_insert_redir(node->left, line, &check);
+	__astree_insert_redir(root, node->left, line, &check);
 	if (check)
 		return (1);
 	return (0);
@@ -61,7 +62,7 @@ static int	astree_insert_scmd(struct s_node *root, char *line)
 		return (1);
 	if (node->right)
 		return (1);
-	node->right = ft_alloc_node(line, SIMPLE_CMD);
+	node->right = ft_alloc_node(line, SIMPLE_CMD, root);
 	if (!node->right)
 		return (1);
 	return (0);
@@ -78,9 +79,10 @@ static int	astree_insert_pipe(struct s_node *root)
 		node = node->right;
 	if (node->right)
 		return (1);
-	node->right = ft_alloc_node("|", PIPE);
+	node->right = ft_alloc_node("|", PIPE, root);
 	if (!node->right)
 		return (1);
+	node->right->depth = root->depth;
 	root->depth += 1;
 	return (0);
 }

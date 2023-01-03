@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 12:33:52 by tjo               #+#    #+#             */
-/*   Updated: 2022/12/29 16:39:29 by tjo              ###   ########.fr       */
+/*   Updated: 2023/01/02 13:30:38 by joowpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,6 @@ int	error_handling(char *progname, char *custom_msg, char *path)
 		ft_fprintf(STDERR_FILENO, "%s", strerror(errno));
 	if (path)
 		ft_fprintf(STDERR_FILENO, ": %s", path);
-	ft_fprintf(STDERR_FILENO, "\n");
+	write(STDERR_FILENO, "\n", 1);
 	return (errno);
 }

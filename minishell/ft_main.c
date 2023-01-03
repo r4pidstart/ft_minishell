@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 11:37:16 by joowpark          #+#    #+#             */
-/*   Updated: 2022/12/30 17:44:11 by tjo              ###   ########.fr       */
+/*   Updated: 2023/01/03 16:53:02 by joowpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,70 @@
 #include <readline/history.h>
 #include <readline/readline.h>
 
+static void	set_signal(void);
+
+static void	signal_handler(int signo)
+{
+	pid_t	pid;
+
+	pid = waitpid(-1, NULL, WNOHANG);
+	set_signal();
+	if (signo == SIGINT)
+	{
+		rl_redisplay();
+		if (pid == -1)
+		{
+			printf("\b\b\b\b\n");
+			write(1, MINISHELL, 12);
+		}
+		else
+			printf("\n");
+	}
+	if (signo == SIGTERM)
+		exit(0);
+	else if (signo == SIGQUIT)
+		return ;
+}
+
+
+static void	set_signal(void)
+{
+	struct sigaction	new;
+	struct sigaction	old;
+
+	new.sa_handler = signal_handler;
+	sigemptyset(&new.sa_mask);
+	sigaction(SIGINT, &new, &old);
+	sigaction(SIGQUIT, &new, &old);
+	sigaction(SIGTERM, &new, &old);
+}
+
 int	main()
 {
 	char	*cmd;
 	char	**tokens;
 	int		nr_tokens;
 
-	dup2(STDIN_FILENO, STDIN_BACKUP);
-	dup2(STDOUT_FILENO, STDOUT_BACKUP);
 	if (init_envp())
 		return (0);
-	while (1)
+	set_signal();
+	//fprintf(stderr,"pid[%d]",getpid());
+	while ((cmd = readline(MINISHELL)))
 	{
-		cmd = readline(MINISHELL);
 		rl_on_new_line();
-		tokens = malloc(sizeof(*tokens) * (ft_strlen(cmd) + 1));
-		if (parse_cmd(tokens, cmd, &nr_tokens))
+		if (!cmd)
 			break ;
+		if (*cmd == '\0')
+			continue ;
 		add_history(cmd);
-		do_cmds(tokens);
-		dup2(STDIN_BACKUP, STDIN_FILENO);
-		dup2(STDOUT_BACKUP, STDOUT_FILENO);
-		free(tokens);
+		tokens = malloc(sizeof(*tokens) * (ft_strlen(cmd) + 1));
+		if (!tokens)
+			break ;
+		if (!parse_cmd(tokens, cmd, &nr_tokens))
+			do_cmds(tokens);
+		free_tokens(tokens);
+		free(cmd);
+	//	fprintf(stderr,"pid[%d]",getpid());
 	}
 	return (0);
 }

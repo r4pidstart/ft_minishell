@@ -4,13 +4,14 @@ CC= cc
 ADR = ./
 SRC = astree.o astree_utils.o ft_free.o ft_str_utils.o \
 	  do_cmds.o init.o parse_cmd.o main.o
+
 SRCS = ${addprefix ${ADR}, ${SRC}}
 
 BONUS= $(NAME)
 
-OFLAGS = 
+OFLAGS = -fsanitize=address
 CFLAGS += $(OFLAGS)
-CFLAGS +=  -Wall -Wextra -Werror 
+CFLAGS +=  -Wall -Wextra -Werror -g3 -ggdb
 CFLAGS +=  -I ./include 
 all : $(NAME)
 

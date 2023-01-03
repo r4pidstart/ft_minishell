@@ -6,7 +6,7 @@
 /*   By: joowpark <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 15:10:14 by joowpark          #+#    #+#             */
-/*   Updated: 2022/12/28 16:11:12 by joowpark         ###   ########.fr       */
+/*   Updated: 2023/01/03 09:33:54 by joowpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,10 @@ static char	get_type(char *line)
 
 static int	do_tree(struct s_node *root)
 {
-	search_tree(root);
+	int	is_in_pipe;
+
+	is_in_pipe = 0;
+	search_tree(root, &is_in_pipe);
 	free_tree(root);
 	return (0);
 }
@@ -36,14 +39,13 @@ int	do_cmds(char **tokens)
 	int				ret;
 
 	ret = 0;
-	root = ft_alloc_node(NULL, ROOT);
+	root = ft_alloc_node("|", PIPE, NULL);
 	if (!root)
 		return (1);
 	while (*tokens)
 	{
 		if (astree_insert_node(root, *tokens, get_type(*tokens)))
 		{
-			printf("%d :[%s]\n", get_type(*tokens), *tokens);
 			ret = 1;
 		}
 		if (ret)

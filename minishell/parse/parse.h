@@ -6,7 +6,7 @@
 /*   By: joowpark <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 11:20:41 by joowpark          #+#    #+#             */
-/*   Updated: 2022/12/28 11:21:58 by joowpark         ###   ########.fr       */
+/*   Updated: 2023/01/03 09:24:25 by joowpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,4 +16,5 @@
 # include "types.h"
 # define DELTOKEN "<>|"
 
+int		check_pipe(char **lines);
 #endif 
