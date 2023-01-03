@@ -70,11 +70,7 @@ void	search_tree(struct s_node *node, int *is_in_pipe)
 			*is_in_pipe = 1;
 	}
 	if (node->line)
-	{
-		fprintf(stderr, "%s [%d]\n",node->line, *is_in_pipe);
-		if (builtin_executer(node, node->line, *is_in_pipe))
-			return ;
-	}
+		builtin_executer(node, node->line, *is_in_pipe);
 	if (node->left && node->type != PIPE)
 		search_tree(node->left, is_in_pipe);
 	if (node->type == PIPE || node->type == NON_PIPE)
@@ -85,5 +81,7 @@ void	search_tree(struct s_node *node, int *is_in_pipe)
 	{
 		dup2(oldfd[0], 0);
 		dup2(oldfd[1], 1);
+		close(oldfd[0]);
+		close(oldfd[1]);
 	}
 }

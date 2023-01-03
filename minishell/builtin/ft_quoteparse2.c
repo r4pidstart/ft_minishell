@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/27 17:05:53 by tjo               #+#    #+#             */
-/*   Updated: 2023/01/02 17:22:37 by joowpark         ###   ########.fr       */
+/*   Updated: 2023/01/03 17:15:18 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,4 +87,9 @@ char	**quote_parser(char *str)
 		pstring++;
 	}
 	return (splited);
+}
+
+char	*line_env_expender(char *str)
+{
+	return (processing(str));
 }

@@ -57,11 +57,11 @@ int	main()
 	char	*cmd;
 	char	**tokens;
 	int		nr_tokens;
+	char	*new_cmd;
 
 	if (init_envp())
 		return (0);
 	set_signal();
-	//fprintf(stderr,"pid[%d]",getpid());
 	while ((cmd = readline(MINISHELL)))
 	{
 		rl_on_new_line();
@@ -70,14 +70,15 @@ int	main()
 		if (*cmd == '\0')
 			continue ;
 		add_history(cmd);
-		tokens = malloc(sizeof(*tokens) * (ft_strlen(cmd) + 1));
+		new_cmd = line_env_expender(cmd);
+		free(cmd);
+		tokens = malloc(sizeof(*tokens) * (ft_strlen(new_cmd) + 1));
 		if (!tokens)
 			break ;
-		if (!parse_cmd(tokens, cmd, &nr_tokens))
+		if (!parse_cmd(tokens, new_cmd, &nr_tokens))
 			do_cmds(tokens);
 		free_tokens(tokens);
-		free(cmd);
-	//	fprintf(stderr,"pid[%d]",getpid());
+		free(new_cmd);
 	}
 	return (0);
 }
