@@ -6,7 +6,7 @@
 #    By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/31 12:48:31 by tjo               #+#    #+#              #
-#    Updated: 2023/01/03 15:28:09 by joowpark         ###   ########.fr        #
+#    Updated: 2023/01/04 00:32:42 by tjo              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,9 @@ SRCS_BUILTIN = ft_unset.c ft_quoteparse1.c ft_quoteparse2.c ft_executer.c \
 	ft_exit.c ft_env.c ft_export.c ft_fork_execve.c ft_make_redirection.c \
 	ft_pipe.c
 
+__LDFLAGS="-L$(HOME)/.brew/opt/readline/lib"
+__CPPFLAGS="-I/$(HOME)/.brew/opt/readline/include"
+
 MAIN = ft_main.c ft_envp.c
 
 ifdef BONUS
@@ -44,15 +47,14 @@ $(NAME): $(LIBFT) $(MAIN:.c:.o) $(addprefix $(PARSE_FOLDER), $(SRCS_PARSE:.c=.o)
 	$(MAIN) \
 	$(addprefix $(PARSE_FOLDER), $(SRCS_PARSE)) \
 	$(addprefix $(BUILTIN_FOLDER), $(SRCS_BUILTIN)) \
-	-L$(LIBFT_SRCS) -lft -lreadline
+	-L$(LIBFT_SRCS) -lft  -lreadline $(__LDFLAGS) $(__CPPFLAGS)
 	$(MAKE) clean
 
 $(LIBFT):
 	make -C $(LIBFT_SRCS) all
 
 %.o: %.c
-	cc $(CFLAGS) -c $^ -o $@
-	
+	cc $(CFLAGS) -c $^ -o $@ 
 bonus:
 	$(MAKE) BONUS=1
 

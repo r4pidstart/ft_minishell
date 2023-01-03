@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 16:52:15 by tjo               #+#    #+#             */
-/*   Updated: 2023/01/03 15:02:06 by joowpark         ###   ########.fr       */
+/*   Updated: 2023/01/03 18:44:07 by joowpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,43 +53,62 @@ static int	exit_code_export(int ret)
 	return (0);
 }
 
+int	exec(char **parsed, int is_in_pipe)
+{
+	int	ret;
+	int	(*func)(char **);
+
+	select_builtin_func(parsed[0], &func);
+	if (func)
+	{
+		ret = func(parsed);
+		if (is_in_pipe)
+			exit(0);
+	}
+	else
+	{
+		if (!is_in_pipe)
+			ret = fork_execve(parsed);
+		else
+			ret = non_fork_execve(parsed);
+	}
+	return (ret);
+}
+
+int	redirect_status(int cmd)
+{
+	static int	stat;
+
+	if (cmd == 0)
+		stat = 0;
+	if (cmd == 1)
+		stat = 1;
+	return (stat);
+}
+
 int	builtin_executer(struct s_node *node, char *s, int is_in_pipe)
 {
 	char	**parsed;
 	char	**ptr;
 	int		ret;
-	int		(*func)(char **);
 
 	ret = 0;
-	node->type = node->type;
+	if (redirect_status(2))
+		return (1);
 	parsed = quote_parser(s);
 	if (parsed[0][0] == '<' || parsed[0][0] == '>')
 		ret = make_redirection(parsed);
 	else if (node->type == PIPE)
 		ret = make_pipe(node);
 	else
-	{
-		select_builtin_func(parsed[0], &func);
-		if (func)
-		{
-			ret = func(parsed);
-			if (is_in_pipe)
-				exit(ret);
-		}
-		else
-		{
-			if (!is_in_pipe)
-				ret = fork_execve(parsed);
-			else
-				ret = non_fork_execve(parsed);
-		}
-	}
-	if (ret && (*parsed[0] == '<' || *parsed[0] == '>'))
-		return (error_handling("minishell: ", "syntax error near unexpected token ", "\\n"));
+		ret = exec(parsed, is_in_pipe);
 	exit_code_export(ret);
 	ptr = parsed;
 	while (*ptr)
 		free(*(ptr++));
 	free(parsed);
+	if (ret && (*parsed[0] == '<' || *parsed[0] == '>'))
+		return (error_handling("minishell: ", \
+			"syntax error near unexpected token ", "\\n"));
 	return (ret);
 }

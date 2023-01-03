@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 18:04:43 by tjo               #+#    #+#             */
-/*   Updated: 2023/01/03 15:01:34 by joowpark         ###   ########.fr       */
+/*   Updated: 2023/01/03 18:45:38 by joowpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	__redirection_output(char *target, int append)
 	return (ret);
 }
 
-static int	__redirection_input(char *target, int type)	//JOOWPARK
+static int	__redirection_input(char *target, int type)
 {
 	int	new_fd;
 	int	ret;
@@ -81,10 +81,14 @@ static int	__redirection(char *target, int type)
 		ret = __redirection_heredoc(trimmed_target);
 	else
 		ret = 1;
-	if (type == R_INPUT && ret) // JOOWPARK
-		return (error_handling("minishell: ","no such file or directory: ", trimmed_target));
 	free(trimmed_target);
 	free(target);
+	if (type == R_INPUT && ret)
+	{
+		redirect_status(1);
+		return (error_handling("minishell: ", "no such file or directory: ", \
+			trimmed_target));
+	}
 	return (ret);
 }
 
@@ -110,8 +114,6 @@ int	make_redirection(char **s)
 			break ;
 		idx++;
 	}
-	if (s[0][idx] == '\0' && s[1] == NULL)
-		return (1);
 	if (s[0][idx] == '\0')
 		target = ft_strdup(s[1]);
 	else

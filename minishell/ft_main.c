@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 11:37:16 by joowpark          #+#    #+#             */
-/*   Updated: 2023/01/03 16:53:02 by joowpark         ###   ########.fr       */
+/*   Updated: 2023/01/03 18:45:49 by joowpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ static void	signal_handler(int signo)
 	set_signal();
 	if (signo == SIGINT)
 	{
+		rl_replace_line("", 0);
 		rl_redisplay();
 		if (pid == -1)
 		{
@@ -39,7 +40,6 @@ static void	signal_handler(int signo)
 		return ;
 }
 
-
 static void	set_signal(void)
 {
 	struct sigaction	new;
@@ -52,33 +52,46 @@ static void	set_signal(void)
 	sigaction(SIGTERM, &new, &old);
 }
 
-int	main()
+static int	show_prompt(char *cmd)
 {
-	char	*cmd;
 	char	**tokens;
 	int		nr_tokens;
 	char	*new_cmd;
 
+	redirect_status(0);
+	rl_on_new_line();
+	if (!cmd)
+		return (1);
+	if (*cmd == '\0')
+		return (0);
+	add_history(cmd);
+	new_cmd = line_env_expender(cmd);
+	free(cmd);
+	tokens = malloc(sizeof(*tokens) * (ft_strlen(new_cmd) + 1));
+	if (!tokens)
+		return (1);
+	if (!parse_cmd(tokens, new_cmd, &nr_tokens))
+		do_cmds(tokens);
+	free_tokens(tokens);
+	free(new_cmd);
+	system("leaks --list -- $PPID");
+	return (0);
+}
+
+int	main(void)
+{
+	char	*cmd;
+
 	if (init_envp())
 		return (0);
 	set_signal();
-	while ((cmd = readline(MINISHELL)))
+	while (1)
 	{
-		rl_on_new_line();
+		cmd = readline(MINISHELL);
 		if (!cmd)
 			break ;
-		if (*cmd == '\0')
-			continue ;
-		add_history(cmd);
-		new_cmd = line_env_expender(cmd);
-		free(cmd);
-		tokens = malloc(sizeof(*tokens) * (ft_strlen(new_cmd) + 1));
-		if (!tokens)
+		if (show_prompt(cmd))
 			break ;
-		if (!parse_cmd(tokens, new_cmd, &nr_tokens))
-			do_cmds(tokens);
-		free_tokens(tokens);
-		free(new_cmd);
 	}
 	return (0);
 }

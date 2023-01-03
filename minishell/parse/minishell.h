@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 12:10:35 by joowpark          #+#    #+#             */
-/*   Updated: 2023/01/03 09:23:43 by joowpark         ###   ########.fr       */
+/*   Updated: 2023/01/03 17:54:19 by joowpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 # include "parse.h"
 
 # define MINISHELL "minishell: "
-
 
 int		check_pipe(char **lines);
 int		init_envp(void);

@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 11:06:49 by joowpark          #+#    #+#             */
-/*   Updated: 2023/01/03 10:30:54 by joowpark         ###   ########.fr       */
+/*   Updated: 2023/01/03 18:47:20 by joowpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,8 @@ void	search_tree(struct s_node *node, int *is_in_pipe)
 	{
 		oldfd[0] = dup(0);
 		oldfd[1] = dup(1);
-		if (node->type == PIPE && node->root->depth != 0 && ((node == node->root)
-			|| (node->depth + 1 < node->root->depth)))
+		if (node->type == PIPE && node->root->depth != 0
+			&& ((node == node->root) || (node->depth + 1 < node->root->depth)))
 			*is_in_pipe = 1;
 	}
 	if (node->line)

@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 13:09:42 by joowpark          #+#    #+#             */
-/*   Updated: 2023/01/03 17:18:58 by tjo              ###   ########.fr       */
+/*   Updated: 2023/01/03 17:58:39 by joowpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int	parse_cmd(char **tokens, char *cmd, int *nr_tokens)
 	tokens[*nr_tokens] = NULL;
 	if (check_pipe(tokens))
 	{
-		write(2, "minishell: parse error near `|'\n",32);
+		write(2, "minishell: parse error near `|'\n", 32);
 		return (1);
 	}
 	return (*nr_tokens < 0);

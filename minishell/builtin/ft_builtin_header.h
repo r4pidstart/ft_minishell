@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 11:47:04 by tjo               #+#    #+#             */
-/*   Updated: 2023/01/03 17:16:21 by tjo              ###   ########.fr       */
+/*   Updated: 2023/01/03 18:37:12 by joowpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ char	*line_env_expender(char *str);
 char	**get_envp_ptr(void);
 char	*get_env_path(void);
 char	**get_envp(void);
+int		redirect_status(int cmd);
 
 int		make_pipe(struct s_node *node);
 int		non_fork_execve(char **parsed);;
