@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 11:37:16 by joowpark          #+#    #+#             */
-/*   Updated: 2023/01/04 02:32:33 by tjo              ###   ########.fr       */
+/*   Updated: 2023/01/04 14:39:07 by joowpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,49 +14,56 @@
 #include <readline/history.h>
 #include <readline/readline.h>
 
-static void	set_signal(void);
+void	set_signal(void);
 
-static void	signal_handler(int signo)
+static int	__do_cmds(char *cmd)
 {
-	pid_t	pid;
+	char	**tokens;
+	int		nr_tokens;
+	char	*new_cmd;
+	int		ret;
 
-	pid = waitpid(-1, NULL, WNOHANG);
-	set_signal();
-	if (signo == SIGINT)
-	{
-		rl_replace_line("", 0);
-		rl_redisplay();
-		if (pid == -1)
-		{
-			ft_printf("\n");
-			write(1, MINISHELL, 12);
-		}
-		else
-			ft_printf("\n");
-	}
-	if (signo == SIGTERM)
-		exit(0);
-	else if (signo == SIGQUIT)
-		return ;
+	ret = 1;
+	new_cmd = line_env_expender(cmd);
+	tokens = malloc(sizeof(*tokens) * (ft_strlen(new_cmd) + 1));
+	if (!tokens)
+		return (1);
+	if (!parse_cmd(tokens, new_cmd, &nr_tokens))
+		ret = do_cmds(tokens);
+	free_tokens(tokens);
+	free(new_cmd);
+	return (ret);
 }
 
-static void	set_signal(void)
+static void	do_tokens(char **cmd)
 {
-	struct sigaction	new;
-	struct sigaction	old;
+	int		cmd_fail;
 
-	new.sa_handler = signal_handler;
-	sigemptyset(&new.sa_mask);
-	sigaction(SIGINT, &new, &old);
-	sigaction(SIGQUIT, &new, &old);
-	sigaction(SIGTERM, &new, &old);
+	cmd_fail = 1;
+	while (*cmd)
+	{
+		if (ft_strncmp(*cmd, "&&", 3) == 0)
+		{
+			if (cmd_fail)
+				break ;
+			cmd ++;
+			continue ;
+		}
+		else if (ft_strncmp(*cmd, "||", 3) == 0)
+		{
+			if (!cmd_fail)
+				break ;
+			cmd += 1;
+			continue ;
+		}
+		cmd_fail = __do_cmds(*cmd);
+		cmd += 1;
+	}
 }
 
 static int	show_prompt(char *cmd)
 {
 	char	**tokens;
-	int		nr_tokens;
-	char	*new_cmd;
 
 	redirect_status(0);
 	rl_on_new_line();
@@ -65,16 +72,12 @@ static int	show_prompt(char *cmd)
 	if (*cmd == '\0')
 		return (0);
 	add_history(cmd);
-	new_cmd = line_env_expender(cmd);
-	free(cmd);
-	tokens = malloc(sizeof(*tokens) * (ft_strlen(new_cmd) + 1));
-	if (!tokens)
-		return (1);
-	if (!parse_cmd(tokens, new_cmd, &nr_tokens))
-		do_cmds(tokens);
-	free_tokens(tokens);
-	free(new_cmd);
-	// system("leaks --list -- $PPID");
+	tokens = parse_tokens(cmd);
+	if (tokens)
+	{
+		do_tokens(tokens);
+		free_tokens(tokens);
+	}
 	return (0);
 }
 
@@ -95,13 +98,3 @@ int	main(void)
 	}
 	return (0);
 }
-
-/*
-minishell: ls >>>>> a
-minishell: : syntax error near unexpected token : \n
-minishell: : syntax error near unexpected token : \n
-minishell: : syntax error near unexpected token : \n
-
-minishell: echo '$HOME' "$HOME"
-/Users/jotaesik /Users/jotaesik
-*/

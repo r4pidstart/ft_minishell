@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 18:04:43 by tjo               #+#    #+#             */
-/*   Updated: 2023/01/04 12:58:43 by tjo              ###   ########.fr       */
+/*   Updated: 2023/01/04 15:08:51 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ static int	__redirection_heredoc(char *limiter)
 	fd = open(get_heredoc_path(), O_CREAT | O_TRUNC | O_RDWR, 0644);
 	if (fd < 0)
 		return (1);
-	tmpline = readline("heredoc> ");
+	ft_fprintf(2, "> ");
+	tmpline = readline("");
 	if (!tmpline)
 		return (1);
 	lim_l = ft_strlen(limiter);
@@ -54,7 +55,8 @@ static int	__redirection_heredoc(char *limiter)
 	{
 		ft_fprintf(fd, "%s\n", tmpline);
 		free(tmpline);
-		tmpline = readline("heredoc> ");
+		ft_fprintf(2, "> ");
+		tmpline = readline("");
 		if (!tmpline)
 			return (1);
 	}
@@ -82,8 +84,8 @@ static int	__redirection(char *target, int type)
 	if (type == R_INPUT && ret)
 	{
 		redirect_status(1);
-		ret = error_handling("minishell: ", "no such file or directory: ", \
-			trimmed_target);
+		ret = error_handling("minishell", trimmed_target \
+			, "no such file or directory");
 	}
 	free(trimmed_target);
 	free(target);

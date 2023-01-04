@@ -6,7 +6,7 @@
 #    By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/31 12:48:31 by tjo               #+#    #+#              #
-#    Updated: 2023/01/04 14:51:14 by tjo              ###   ########.fr        #
+#    Updated: 2023/01/04 15:05:59 by tjo              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ PARSE_FOLDER = parse/
 BUILTIN_FOLDER = builtin/
 
 SRCS_PARSE = astree.c astree_utils.c ft_free.c ft_str_utils.c \
-	  do_cmds.c parse_cmd.c ft_check_tokens.c
+	  do_cmds.c parse_cmd.c ft_check_tokens.c parse_tokens.c
 SRCS_BUILTIN = ft_unset.c ft_quoteparse1.c ft_quoteparse2.c ft_executer.c \
 	ft_error.c ft_cd.c ft_echo.c ft_pwd.c ft_builtin_utils.c \
 	ft_exit.c ft_env.c ft_export.c ft_fork_execve.c ft_make_redirection.c \
@@ -35,7 +35,7 @@ else
 	__CPPFLAGS="-I/$(HOME)/.brew/opt/readline/include"
 endif
 
-MAIN = ft_main.c ft_envp.c
+MAIN = ft_main.c ft_envp.c ft_signal.c
 
 # ifdef BONUS
 # 	NAME = 
@@ -74,7 +74,9 @@ fclean: clean
 	rm -rf $(NAME)
 	make fclean -C $(LIBFT_SRCS)
 
-re: fclean all
+re:
 	make re -C $(LIBFT_SRCS)
+	$(MAKE) fclean
+	$(MAKE) all
 
 .PHONY: bonus all clean fclean re

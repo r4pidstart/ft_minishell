@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 12:54:55 by joowpark          #+#    #+#             */
-/*   Updated: 2023/01/02 15:39:49 by joowpark         ###   ########.fr       */
+/*   Updated: 2023/01/04 10:50:00 by joowpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ struct s_node{
 	int				std_out;
 };
 
-void			search_tree(struct s_node *node, int *is_in_pipe);
+void			search_tree(struct s_node *node, int *is_in_pipe, int *ret);
 struct s_node	*ft_get_cmd_token(struct s_node *root);
 void			astree_init(struct s_node *root);
 struct s_node	*ft_alloc_node(char *line, char type, struct s_node *node);
