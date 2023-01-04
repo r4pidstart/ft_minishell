@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 16:52:15 by tjo               #+#    #+#             */
-/*   Updated: 2023/01/03 18:44:07 by joowpark         ###   ########.fr       */
+/*   Updated: 2023/01/04 14:47:42 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,27 +75,27 @@ int	exec(char **parsed, int is_in_pipe)
 	return (ret);
 }
 
-int	redirect_status(int cmd)
+int	free_parsed(char **parsed)
 {
-	static int	stat;
+	char	**ptr;
 
-	if (cmd == 0)
-		stat = 0;
-	if (cmd == 1)
-		stat = 1;
-	return (stat);
+	ptr = parsed;
+	while (*ptr)
+		free(*(ptr++));
+	free(parsed);
+	return (0);
 }
 
 int	builtin_executer(struct s_node *node, char *s, int is_in_pipe)
 {
 	char	**parsed;
-	char	**ptr;
 	int		ret;
 
 	ret = 0;
 	if (redirect_status(2))
 		return (1);
 	parsed = quote_parser(s);
+	wildcard_parser(&parsed);
 	if (parsed[0][0] == '<' || parsed[0][0] == '>')
 		ret = make_redirection(parsed);
 	else if (node->type == PIPE)
@@ -103,11 +103,10 @@ int	builtin_executer(struct s_node *node, char *s, int is_in_pipe)
 	else
 		ret = exec(parsed, is_in_pipe);
 	exit_code_export(ret);
-	ptr = parsed;
-	while (*ptr)
-		free(*(ptr++));
-	free(parsed);
-	if (ret && (*parsed[0] == '<' || *parsed[0] == '>'))
+	if (ret == 1 && (*parsed[0] == '<' || *parsed[0] == '>'))
+		ret = -42;
+	free_parsed(parsed);
+	if (ret == -42)
 		return (error_handling("minishell: ", \
 			"syntax error near unexpected token ", "\\n"));
 	return (ret);

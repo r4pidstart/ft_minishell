@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 18:04:43 by tjo               #+#    #+#             */
-/*   Updated: 2023/01/03 18:45:38 by joowpark         ###   ########.fr       */
+/*   Updated: 2023/01/04 12:58:43 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	__redirection_output(char *target, int append)
 		| !append * O_TRUNC | O_CREAT, 0644);
 	ret = dup2(new_fd, STDOUT_FILENO);
 	close(new_fd);
-	return (ret);
+	return (ret == -1);
 }
 
 static int	__redirection_input(char *target, int type)
@@ -34,7 +34,7 @@ static int	__redirection_input(char *target, int type)
 		return (1);
 	ret = dup2(new_fd, STDIN_FILENO);
 	close(new_fd);
-	return (ret);
+	return (ret == -1);
 }
 
 static int	__redirection_heredoc(char *limiter)
@@ -46,17 +46,15 @@ static int	__redirection_heredoc(char *limiter)
 	fd = open(get_heredoc_path(), O_CREAT | O_TRUNC | O_RDWR, 0644);
 	if (fd < 0)
 		return (1);
-	ft_fprintf(2, "> ");
-	tmpline = get_next_line(0);
+	tmpline = readline("heredoc> ");
 	if (!tmpline)
 		return (1);
 	lim_l = ft_strlen(limiter);
-	while (ft_strncmp(limiter, tmpline, lim_l) || tmpline[lim_l] != '\n')
+	while (ft_strncmp(limiter, tmpline, lim_l + 1))
 	{
-		ft_fprintf(fd, "%s", tmpline);
-		ft_fprintf(2, "> ");
+		ft_fprintf(fd, "%s\n", tmpline);
 		free(tmpline);
-		tmpline = get_next_line(0);
+		tmpline = readline("heredoc> ");
 		if (!tmpline)
 			return (1);
 	}
@@ -81,14 +79,14 @@ static int	__redirection(char *target, int type)
 		ret = __redirection_heredoc(trimmed_target);
 	else
 		ret = 1;
-	free(trimmed_target);
-	free(target);
 	if (type == R_INPUT && ret)
 	{
 		redirect_status(1);
-		return (error_handling("minishell: ", "no such file or directory: ", \
-			trimmed_target));
+		ret = error_handling("minishell: ", "no such file or directory: ", \
+			trimmed_target);
 	}
+	free(trimmed_target);
+	free(target);
 	return (ret);
 }
 
@@ -96,11 +94,10 @@ int	make_redirection(char **s)
 {
 	int		type;
 	int		idx;
-	char	*target;
 
-	idx = 0;
+	idx = -1;
 	type = 0;
-	while (s[0][idx])
+	while (s[0][++idx])
 	{
 		if (s[0][idx] == '<' && type == R_NORMAL)
 			type = R_INPUT;
@@ -112,11 +109,11 @@ int	make_redirection(char **s)
 			type = R_APPEND;
 		else if (!ft_isspace(s[0][idx]) || !s[0][idx])
 			break ;
-		idx++;
 	}
+	if (s[0][idx] == '\0' && s[1] == NULL)
+		return (redirect_status(1) * -42);
 	if (s[0][idx] == '\0')
-		target = ft_strdup(s[1]);
+		return (__redirection(ft_strdup(s[1]), type));
 	else
-		target = ft_substr(s[0], idx, -1);
-	return (__redirection(target, type));
+		return (__redirection(ft_substr(s[0], idx, -1), type));
 }

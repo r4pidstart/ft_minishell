@@ -1,8 +1,8 @@
 all: fclean
-	make -C pipex all
+	make -C minishell all
 fclean:
-	make -C pipex fclean
+	make -C minishell fclean
 bonus:
-	make -C pipex bonus
+	make -C minishell bonus
 t:
 	cc test.c -o test

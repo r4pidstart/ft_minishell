@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pipe.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joowpark <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 12:53:26 by joowpark          #+#    #+#             */
-/*   Updated: 2023/01/03 18:31:18 by joowpark         ###   ########.fr       */
+/*   Updated: 2023/01/04 01:17:10 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	__make_pipe(struct s_node *node, int *fd)
 	{
 		close(fd[1]);
 		dup2(fd[0], 0);
-		waitpid(pid, NULL, 0);
+		waitpid(pid, NULL, WNOHANG);
 		close(fd[0]);
 	}
 	else

@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 11:37:16 by joowpark          #+#    #+#             */
-/*   Updated: 2023/01/03 18:45:49 by joowpark         ###   ########.fr       */
+/*   Updated: 2023/01/04 02:32:33 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,11 @@ static void	signal_handler(int signo)
 		rl_redisplay();
 		if (pid == -1)
 		{
-			printf("\b\b\b\b\n");
+			ft_printf("\n");
 			write(1, MINISHELL, 12);
 		}
 		else
-			printf("\n");
+			ft_printf("\n");
 	}
 	if (signo == SIGTERM)
 		exit(0);
@@ -74,7 +74,7 @@ static int	show_prompt(char *cmd)
 		do_cmds(tokens);
 	free_tokens(tokens);
 	free(new_cmd);
-	system("leaks --list -- $PPID");
+	// system("leaks --list -- $PPID");
 	return (0);
 }
 
@@ -95,3 +95,13 @@ int	main(void)
 	}
 	return (0);
 }
+
+/*
+minishell: ls >>>>> a
+minishell: : syntax error near unexpected token : \n
+minishell: : syntax error near unexpected token : \n
+minishell: : syntax error near unexpected token : \n
+
+minishell: echo '$HOME' "$HOME"
+/Users/jotaesik /Users/jotaesik
+*/

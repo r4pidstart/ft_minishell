@@ -6,7 +6,7 @@
 #    By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/31 12:48:31 by tjo               #+#    #+#              #
-#    Updated: 2023/01/04 00:54:42 by tjo              ###   ########.fr        #
+#    Updated: 2023/01/04 14:51:14 by tjo              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ SRCS_PARSE = astree.c astree_utils.c ft_free.c ft_str_utils.c \
 SRCS_BUILTIN = ft_unset.c ft_quoteparse1.c ft_quoteparse2.c ft_executer.c \
 	ft_error.c ft_cd.c ft_echo.c ft_pwd.c ft_builtin_utils.c \
 	ft_exit.c ft_env.c ft_export.c ft_fork_execve.c ft_make_redirection.c \
-	ft_pipe.c
+	ft_pipe.c ft_wildcardparse.c ft_reorder_parsed.c
 
 uname := $(shell uname -p)
 ifeq ($(uname), arm)

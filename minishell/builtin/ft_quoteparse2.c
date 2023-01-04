@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/27 17:05:53 by tjo               #+#    #+#             */
-/*   Updated: 2023/01/03 17:15:18 by tjo              ###   ########.fr       */
+/*   Updated: 2023/01/04 12:56:41 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,13 @@ static char	*processing_concat(char *s, t_parser *st, int env)
 	char	*env_tmp;
 	char	*ret;
 
+	if (env == 2)
+	{
+		st->e--;
+		st->s++;
+	}
 	tmp = ft_substr(s + st->e, 0, st->s - st->e);
-	if (env)
+	if (env == 1)
 	{
 		env_tmp = expend_env(tmp);
 		free(tmp);
@@ -28,7 +33,7 @@ static char	*processing_concat(char *s, t_parser *st, int env)
 	ret = ft_strjoin(st->ret, tmp);
 	free(st->ret);
 	free(tmp);
-	st->e = st->s + 1;
+	st->e = st->s + 1 - (env == 2);
 	st->status = NORMAL;
 	return (ret);
 }
@@ -89,7 +94,32 @@ char	**quote_parser(char *str)
 	return (splited);
 }
 
+// process without single quotes
+static char	*preprocessing(char *s)
+{
+	t_parser	st;
+
+	st = (t_parser){.ret = dummy_string(), .s = 0, .e = 0, .status = 0};
+	while (s[st.s])
+	{
+		if (ft_isspace(s[st.s]) && st.status == DOUBLE)
+			s[st.s] = 7;
+		else if (ft_isspace(s[st.s]))
+			s[st.s] = 32;
+		if (st.status == DOUBLE && s[st.s] == '\'')
+			st.ret = processing_concat(s, &st, 2);
+		else if (st.status == NORMAL && s[st.s] == '\'')
+		{
+			st.ret = processing_concat(s, &st, 1);
+			st.status = DOUBLE;
+		}
+		st.s++;
+	}
+	st.ret = processing_concat(s, &st, 1);
+	return (st.ret);
+}
+
 char	*line_env_expender(char *str)
 {
-	return (processing(str));
+	return (preprocessing(str));
 }

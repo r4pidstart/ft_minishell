@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 19:45:45 by tjo               #+#    #+#             */
-/*   Updated: 2023/01/03 17:39:41 by joowpark         ###   ########.fr       */
+/*   Updated: 2023/01/04 12:58:23 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	*get_env(char *target)
 		st.tmp = get_next_line(st.env_fd);
 		if (!st.tmp)
 			break ;
-		if (!ft_strncmp(st.tmp, st.target, ft_strlen(st.target)))
+		if (!st.env && !ft_strncmp(st.tmp, st.target, ft_strlen(st.target)))
 			st.env = ft_strdup(st.tmp);
 		free(st.tmp);
 	}
@@ -75,4 +75,15 @@ int	print_all_env(void)
 		free(env);
 	}
 	close(env_fd);
+}
+
+int	redirect_status(int cmd)
+{
+	static int	stat;
+
+	if (cmd == 0)
+		stat = 0;
+	if (cmd == 1)
+		stat = 1;
+	return (stat);
 }
