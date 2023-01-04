@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/27 17:05:53 by tjo               #+#    #+#             */
-/*   Updated: 2023/01/04 12:56:41 by tjo              ###   ########.fr       */
+/*   Updated: 2023/01/04 18:08:13 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ char	**quote_parser(char *str)
 }
 
 // process without single quotes
-static char	*preprocessing(char *s)
+char	*line_env_expender(char *s)
 {
 	t_parser	st;
 
@@ -117,9 +117,4 @@ static char	*preprocessing(char *s)
 	}
 	st.ret = processing_concat(s, &st, 1);
 	return (st.ret);
-}
-
-char	*line_env_expender(char *str)
-{
-	return (preprocessing(str));
 }

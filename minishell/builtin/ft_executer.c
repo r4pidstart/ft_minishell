@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 16:52:15 by tjo               #+#    #+#             */
-/*   Updated: 2023/01/04 14:47:42 by tjo              ###   ########.fr       */
+/*   Updated: 2023/01/04 18:54:55 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	select_builtin_func(char *s, int (**func)(char **))
 		*func = NULL;
 }
 
-static int	exit_code_export(int ret)
+int	exit_code_export(int ret)
 {
 	char	**tmp;
 	char	*tmpret;
@@ -96,11 +96,11 @@ int	builtin_executer(struct s_node *node, char *s, int is_in_pipe)
 		return (1);
 	parsed = quote_parser(s);
 	wildcard_parser(&parsed);
-	if (parsed[0][0] == '<' || parsed[0][0] == '>')
-		ret = make_redirection(parsed);
+	if (*parsed && (parsed[0][0] == '<' || parsed[0][0] == '>'))
+		ret = check_redirect(parsed);
 	else if (node->type == PIPE)
 		ret = make_pipe(node);
-	else
+	else if (*parsed)
 		ret = exec(parsed, is_in_pipe);
 	exit_code_export(ret);
 	if (ret == 1 && (*parsed[0] == '<' || *parsed[0] == '>'))

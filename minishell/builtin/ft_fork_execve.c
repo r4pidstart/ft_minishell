@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_fork_execve.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joowpark <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 17:41:41 by joowpark          #+#    #+#             */
-/*   Updated: 2023/01/03 17:43:55 by joowpark         ###   ########.fr       */
+/*   Updated: 2023/01/04 18:37:48 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,17 +41,27 @@ static void	exec(char **args, char **envp)
 {
 	char	*tmp;
 
-	if (access(args[0], X_OK) == 0)
-		if (execve(args[0], args, envp) == -1)
-			exit(error_handling("minishell: execve", 0, args[0]));
 	tmp = find_path(args[0]);
-	if (!tmp)
-		exit(error_handling("minishell", args[0], "command not found"));
+	if (access(args[0], F_OK) && (!tmp || access(tmp, F_OK)))
+	{
+		error_handling("minishell", args[0], "command not found");
+		exit(127);
+	}
+	if (access(args[0], X_OK) == 0)
+	{
+		if (execve(args[0], args, envp) == -1)
+		{
+			error_handling("minishell", 0, args[0]);
+			exit(126);
+		}
+	}
 	free(args[0]);
 	args[0] = ft_strdup(tmp);
-	if (access(args[0], X_OK) == 0)
-		if (execve(args[0], args, envp) == -1)
-			exit(error_handling("execve", 0, 0));
+	if (access(args[0], X_OK) || execve(args[0], args, envp) == -1)
+	{
+		error_handling("minishell", 0, args[0]);
+		exit(126);
+	}
 	exit(1);
 }
 

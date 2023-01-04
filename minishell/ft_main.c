@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 11:37:16 by joowpark          #+#    #+#             */
-/*   Updated: 2023/01/04 14:39:07 by joowpark         ###   ########.fr       */
+/*   Updated: 2023/01/04 18:55:31 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ int	main(void)
 	if (init_envp())
 		return (0);
 	set_signal();
+	exit_code_export(0);
 	while (1)
 	{
 		cmd = readline(MINISHELL);
@@ -98,3 +99,8 @@ int	main(void)
 	}
 	return (0);
 }
+
+// segfault when "\"" << solved
+// sigint exitcode << solved
+// fork exitcode 127 126 << solved
+// ambigous redirect << solved

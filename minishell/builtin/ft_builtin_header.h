@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 11:47:04 by tjo               #+#    #+#             */
-/*   Updated: 2023/01/04 15:03:46 by joowpark         ###   ########.fr       */
+/*   Updated: 2023/01/04 18:47:33 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ typedef struct s_get_env
 int		builtin_executer(struct s_node *node, char *s, int is_in_pipe);
 int		error_handling(char *progname, char *custom_msg, char *path);
 int		make_redirection(char **s);
+int		exit_code_export(int ret);
 
 int		fork_execve(char **parsed);
 int		echo(char **s);
@@ -79,12 +80,14 @@ char	*dummy_string(void);
 
 int		print_all_env(void);
 char	**quote_parser(char *s);
-char	*line_env_expender(char *str);
+char	*line_env_expender(char *s);
 
 // ../ft_envp.c
 char	**get_envp_ptr(void);
 char	*get_env_path(void);
 char	**get_envp(void);
+
+int		check_redirect(char **parsed);
 int		redirect_status(int cmd);
 
 int		make_pipe(struct s_node *node);

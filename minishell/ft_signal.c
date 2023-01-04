@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 09:32:55 by joowpark          #+#    #+#             */
-/*   Updated: 2023/01/04 15:07:05 by tjo              ###   ########.fr       */
+/*   Updated: 2023/01/04 18:00:42 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,12 @@ static void	signal_handler(int signo)
 		rl_replace_line("", 0);
 		if (pid == -1)
 		{
-			ft_printf("\n");
+			ft_printf("\b\b\b\b\b\b\n");
 			write(1, MINISHELL, 12);
 		}
 		else
 			ft_printf("\n");
+		exit_code_export(1);
 	}
 	if (signo == SIGTERM)
 		exit(0);
