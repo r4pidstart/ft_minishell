@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 18:04:43 by tjo               #+#    #+#             */
-/*   Updated: 2023/01/04 15:08:51 by tjo              ###   ########.fr       */
+/*   Updated: 2023/01/05 13:27:36 by joowpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ static int	__redirection_input(char *target, int type)
 	return (ret == -1);
 }
 
+/*
 static int	__redirection_heredoc(char *limiter)
 {
 	int		fd;
@@ -46,8 +47,8 @@ static int	__redirection_heredoc(char *limiter)
 	fd = open(get_heredoc_path(), O_CREAT | O_TRUNC | O_RDWR, 0644);
 	if (fd < 0)
 		return (1);
-	ft_fprintf(2, "> ");
-	tmpline = readline("");
+	//ft_fprintf(2, "> ");
+	tmpline = readline("> ");
 	if (!tmpline)
 		return (1);
 	lim_l = ft_strlen(limiter);
@@ -55,14 +56,52 @@ static int	__redirection_heredoc(char *limiter)
 	{
 		ft_fprintf(fd, "%s\n", tmpline);
 		free(tmpline);
-		ft_fprintf(2, "> ");
-		tmpline = readline("");
+		//ft_fprintf(2, "> ");
+		tmpline = readline("> ");
 		if (!tmpline)
 			return (1);
 	}
 	close(fd);
 	__redirection_input(get_heredoc_path(), 1);
 	return (0);
+}
+*/
+
+static void	__here_doc(int *fd, char *limiter)
+{
+	char	*str;
+
+	close(fd[0]);
+	while (1)
+	{
+		str = readline("> ");
+		if (!str || ft_strncmp(str, limiter, ft_strlen(limiter)) == 0)
+				break ;
+		ft_fprintf(fd[1], "%s\n",str);
+		free(str);
+	}
+	close(fd[1]);
+	exit(0);
+}
+
+static int __redirection_heredoc(char *limiter)
+{
+	pid_t	pid;
+	int		fd[2];
+	int		stat;
+
+	pipe(fd);
+	pid = fork();
+	stat = 0;
+	if (pid)
+	{
+		close(fd[1]);
+		waitpid(pid, &stat, 0);
+		close(fd[0]);
+	}
+	else
+		__here_doc(fd, limiter);
+	return (stat);
 }
 
 static int	__redirection(char *target, int type)

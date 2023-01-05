@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 11:06:49 by joowpark          #+#    #+#             */
-/*   Updated: 2023/01/04 14:50:18 by joowpark         ###   ########.fr       */
+/*   Updated: 2023/01/05 12:17:39 by joowpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,4 +90,6 @@ void	search_tree(struct s_node *node, int *is_in_pipe, int *ret)
 		close(oldfd[0]);
 		close(oldfd[1]);
 	}
+	if (node->type == CMD)
+		do_cmd_token(node, *is_in_pipe, *ret);
 }

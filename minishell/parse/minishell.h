@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 12:10:35 by joowpark          #+#    #+#             */
-/*   Updated: 2023/01/04 10:52:01 by joowpark         ###   ########.fr       */
+/*   Updated: 2023/01/05 11:05:57 by joowpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,4 +29,6 @@ void	free_tokens(char **tokens);
 void	set_signal(void);
 char	**parse_tokens(char *line);
 int		error_handling(char *progname, char *custom_msg, char *path);
+char	*remove_parentheses(char *line);
+
 #endif

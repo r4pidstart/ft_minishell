@@ -6,7 +6,7 @@
 /*   By: joowpark <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 15:10:14 by joowpark          #+#    #+#             */
-/*   Updated: 2023/01/04 09:59:32 by joowpark         ###   ########.fr       */
+/*   Updated: 2023/01/05 12:21:02 by joowpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,25 @@ static char	get_type(char *line)
 
 static int	do_tree(struct s_node *root)
 {
-	int	is_in_pipe;
-	int	ret;
+	int		is_in_pipe;
+	int		ret;
+	size_t	idx;
 
 	is_in_pipe = 0;
 	search_tree(root, &is_in_pipe, &ret);
+	idx = 0;
+	while (idx ++ < root->depth)
+		waitpid(-1, NULL, 0);
 	free_tree(root);
 	return (ret);
+}
+
+void	do_cmd_token(struct s_node *node, int is_in_pipe, int ret)
+{
+	if (node->right && !node->right->line && is_in_pipe)
+		exit(ret);
+	if (!node->right && is_in_pipe)
+		exit(ret);
 }
 
 int	do_cmds(char **tokens)

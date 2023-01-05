@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 11:37:16 by joowpark          #+#    #+#             */
-/*   Updated: 2023/01/04 18:55:31 by tjo              ###   ########.fr       */
+/*   Updated: 2023/01/05 13:46:54 by joowpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,14 @@ static void	do_tokens(char **cmd)
 		if (ft_strncmp(*cmd, "&&", 3) == 0)
 		{
 			if (cmd_fail)
-				break ;
+				cmd ++;
 			cmd ++;
 			continue ;
 		}
 		else if (ft_strncmp(*cmd, "||", 3) == 0)
 		{
 			if (!cmd_fail)
-				break ;
+				cmd ++;
 			cmd += 1;
 			continue ;
 		}
@@ -72,6 +72,7 @@ static int	show_prompt(char *cmd)
 	if (*cmd == '\0')
 		return (0);
 	add_history(cmd);
+	cmd = remove_parentheses(cmd);
 	tokens = parse_tokens(cmd);
 	if (tokens)
 	{

@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 11:47:04 by tjo               #+#    #+#             */
-/*   Updated: 2023/01/04 18:47:33 by tjo              ###   ########.fr       */
+/*   Updated: 2023/01/05 12:42:25 by joowpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,5 +96,5 @@ int		non_fork_execve(char **parsed);
 int		wildcard_parser(char ***parsed);
 int		reorder_parsed(char ***parsed);
 int		free_parsed(char **parsed);
-
+void	ft_flush(void);
 #endif
