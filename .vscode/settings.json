@@ -45,7 +45,8 @@
 		"minishell.h": "c",
 		"parse.h": "c",
 		"astree.h": "c",
-		"types.h": "c"
+		"types.h": "c",
+		"ft_libft.h": "c"
 	},
     "editor.insertSpaces": false,
 	"editor.detectIndentation": false,

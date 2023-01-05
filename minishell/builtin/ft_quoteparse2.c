@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/27 17:05:53 by tjo               #+#    #+#             */
-/*   Updated: 2023/01/05 12:13:06 by joowpark         ###   ########.fr       */
+/*   Updated: 2023/01/05 14:48:49 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,34 @@ static char	*processing(char *s)
 	return (st.ret);
 }
 
+char	**dummy_parsed(char **target)
+{
+	char	**cur[2];
+	char	**ret;
+	size_t	siz;
+
+	siz = 0;
+	cur[0] = target;
+	while (*cur[0])
+	{
+		siz++;
+		cur[0]++;
+	}
+	ret = (char **)malloc(sizeof(char *) * (siz + 2));
+	cur[0] = target;
+	cur[1] = ret;
+	while (*cur[0])
+	{
+		cur[1][0] = cur[0][0];
+		cur[0]++;
+		cur[1]++;
+	}
+	cur[1][0] = dummy_string();
+	cur[1][1] = 0;
+	free(target);
+	return (ret);
+}
+
 // 1. change whitespace to -1 and 7(bell) and expend the env
 // 2. split
 // 3. restore bell to space
@@ -78,6 +106,8 @@ char	**quote_parser(char *str)
 
 	s = processing(str);
 	splited = ft_split(s, ' ');
+	if (s[ft_strlen(s) - 1] == ' ')
+		splited = dummy_parsed(splited);
 	free(s);
 	pstring = splited;
 	while (*pstring)
@@ -113,6 +143,8 @@ char	*line_env_expender(char *s)
 			st.ret = processing_concat(s, &st, 1);
 			st.status = DOUBLE;
 		}
+		if (s[st.s] == 0)
+			break ;
 		st.s++;
 	}
 	st.ret = processing_concat(s, &st, 1);

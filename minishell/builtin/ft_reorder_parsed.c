@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 14:44:20 by tjo               #+#    #+#             */
-/*   Updated: 2023/01/04 14:56:35 by tjo              ###   ########.fr       */
+/*   Updated: 2023/01/05 14:40:46 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ static size_t	count_lst(t_list *lst)
 	while (lst)
 	{
 		cur = (char **)lst->content;
+		if (*cur == 0)
+			ret++;
 		while (*cur)
 		{
 			ret++;
@@ -38,11 +40,13 @@ static char	**extract_lst(t_list *lst, size_t len)
 	char	**cur;
 	t_list	*next;
 
-	ret = (char **)malloc(sizeof(char **) * len + 1);
+	ret = (char **)malloc(sizeof(char *) * (len + 1));
 	idx = 0;
 	while (lst)
 	{
 		cur = (char **)lst->content;
+		if (*cur == 0)
+			ret[idx++] = dummy_string();
 		while (*cur)
 		{
 			ret[idx++] = ft_strdup(*cur);
