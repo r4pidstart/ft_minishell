@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pre_executer.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joowpark <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 12:27:08 by joowpark          #+#    #+#             */
-/*   Updated: 2023/01/09 12:54:33 by joowpark         ###   ########.fr       */
+/*   Updated: 2023/01/09 18:23:34 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ int	ft_pre_executer(char *s, struct s_node *node)
 		return (1);
 	parsed = quote_parser(s);
 	wildcard_parser(&parsed);
-	printf("FUCK\n");
 	if (*parsed && (parsed[0][0] == '<' || parsed[0][0] == '>'))
 	{
 		ret = check_redirect(parsed, node, 1);

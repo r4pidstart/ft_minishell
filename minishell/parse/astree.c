@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 11:06:49 by joowpark          #+#    #+#             */
-/*   Updated: 2023/01/09 12:56:32 by joowpark         ###   ########.fr       */
+/*   Updated: 2023/01/09 18:45:25 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ struct s_node	*ft_alloc_node(char *line, char type, struct s_node *root)
 	if (!node)
 		return (node);
 	*node = (struct s_node){
-		.line = line,
+		.line = NULL,
 		.right = NULL,
 		.left = NULL,
 		.type = type,
@@ -31,6 +31,8 @@ struct s_node	*ft_alloc_node(char *line, char type, struct s_node *root)
 	};
 	if (root == NULL)
 		node->root = node;
+	if (line)
+		node->line = ft_strdup(line);
 	return (node);
 }
 
@@ -66,6 +68,8 @@ static void	__set_node_pipe(struct s_node *node, int *is_in_pipe, int *fd)
 	if (node->type == PIPE && node->root->depth != 0
 		&& ((node == node->root) || (node->depth + 1 < node->root->depth)))
 		*is_in_pipe = 1;
+	node->std_inout[0] = fd[0];
+	node->std_inout[1] = fd[1];
 }
 
 void	search_tree(struct s_node *node, int *is_in_pipe, int *ret)
@@ -74,7 +78,7 @@ void	search_tree(struct s_node *node, int *is_in_pipe, int *ret)
 
 	if (node->type == PIPE || node->type == CMD || node->type == ROOT)
 		__set_node_pipe(node, is_in_pipe, oldfd);
-	if (node->line)		//코드 실행
+	if (node->line)
 		*ret = builtin_executer(node, node->line, *is_in_pipe);
 	if (*ret && *is_in_pipe && node->type != PIPE)
 		exit(1);
@@ -82,7 +86,7 @@ void	search_tree(struct s_node *node, int *is_in_pipe, int *ret)
 		search_tree(node->left, is_in_pipe, ret);
 	if (node->type == PIPE || node->type == NON_PIPE)
 		*is_in_pipe = 0;
-	if (node->right  && node->type != NON_PIPE)
+	if (node->right && node->type != NON_PIPE)
 		search_tree(node->right, is_in_pipe, ret);
 	if (node->type == PIPE || node->type == NON_PIPE
 		|| node->type == CMD || node->type == ROOT)

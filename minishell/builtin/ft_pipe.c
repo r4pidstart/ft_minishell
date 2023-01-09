@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 12:53:26 by joowpark          #+#    #+#             */
-/*   Updated: 2023/01/09 13:44:16 by joowpark         ###   ########.fr       */
+/*   Updated: 2023/01/09 18:57:35 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ static int	is_redirect_after(struct s_node *node)
 		return (0);
 	return (1);
 }
-
 
 static int	__make_pipe(struct s_node *node, int *fd)
 {

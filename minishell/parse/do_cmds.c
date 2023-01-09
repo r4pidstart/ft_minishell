@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   do_cmds.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joowpark <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 15:10:14 by joowpark          #+#    #+#             */
-/*   Updated: 2023/01/09 12:53:32 by joowpark         ###   ########.fr       */
+/*   Updated: 2023/01/09 19:03:04 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,25 +23,6 @@ static char	get_type(char *line)
 		return (SIMPLE_CMD);
 }
 
-static int	do_tree(struct s_node *root)
-{
-	int		is_in_pipe;
-	int		ret;
-	size_t	idx;
-
-	ret = 0;
-	is_in_pipe = 0;
-	pre_search_tree(root, &ret);
-	if (ret)
-		return (ret);
-	search_tree(root, &is_in_pipe, &ret);
-	idx = 0;
-	while (idx ++ < root->depth)
-		waitpid(-1, NULL, 0);
-	free_tree(root);
-	return (ret);
-}
-
 void	do_cmd_token(struct s_node *node, int is_in_pipe, int ret)
 {
 	if (node->right && !node->right->line && is_in_pipe)
@@ -50,29 +31,40 @@ void	do_cmd_token(struct s_node *node, int is_in_pipe, int ret)
 		exit(ret);
 }
 
-int	do_cmds(char **tokens)
+static struct s_node	*__get_tree(struct s_node *root, char **tokens)
 {
-	struct s_node	*root;
-	int				ret;
+	int	ret;
 
 	ret = 0;
-	root = ft_alloc_node("|", PIPE, NULL);
-	if (!root)
-		return (1);
-	while (*tokens)
+	while (*tokens && !ret)
 	{
-		if (astree_insert_node(root, *tokens, get_type(*tokens)))
-		{
-			ret = 1;
-		}
-		if (ret)
-			break ;
+		ret = astree_insert_node(root, *tokens, get_type(*tokens));
 		tokens += 1;
 	}
 	if (ret)
 	{
 		perror(NULL);
-		return (ret);
+		return (NULL);
 	}
-	return (do_tree(root));
+	return (root);
+}
+
+struct s_node	*get_tree(char *cmd)
+{
+	struct s_node	*root;
+	char			**tokens;
+	int				nr_tokens;
+
+	if (!ft_strncmp(cmd, "&&", 3) || !ft_strncmp(cmd, "||", 3))
+		return (ft_alloc_node(cmd, ROOT, NULL));
+	else
+		root = ft_alloc_node("|", PIPE, NULL);
+	if (!root)
+		return (NULL);
+	tokens = (char **)malloc(sizeof(*tokens) * (ft_strlen(cmd) + 1));
+	if (parse_cmd(tokens, cmd, &nr_tokens))
+		return (NULL);
+	if (!tokens)
+		return (NULL);
+	return (__get_tree(root, tokens));
 }

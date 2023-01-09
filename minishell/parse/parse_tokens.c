@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_tokens.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joowpark <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 09:06:48 by joowpark          #+#    #+#             */
-/*   Updated: 2023/01/05 16:53:38 by joowpark         ###   ########.fr       */
+/*   Updated: 2023/01/09 18:31:42 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static int	check_tokens(char **tokens)
 		}
 		idx += 1;
 	}
-	if (!(idx % 2))
+	if (!(idx % 2) && *tokens)
 		return (print_error_tokens(tokens, idx));
 	return (0);
 }
@@ -81,7 +81,9 @@ char	**parse_tokens(char *line)
 	char	**ret;
 	int		nr_tokens;
 
-	ret = malloc(sizeof(*ret) * ft_strlen(line));
+	if (!line)
+		return (NULL);
+	ret = malloc(sizeof(*ret) * (ft_strlen(line) + 1));
 	if (!ret)
 		return (ret);
 	nr_tokens = 0;

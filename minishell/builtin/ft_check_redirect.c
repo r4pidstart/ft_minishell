@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:46:33 by tjo               #+#    #+#             */
-/*   Updated: 2023/01/09 13:28:13 by joowpark         ###   ########.fr       */
+/*   Updated: 2023/01/09 18:57:23 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,6 @@ int	check_redirect(char **parsed, struct s_node *node, int here)
 	}
 	node_direct = get_near_type_node(node, REDIRECTS);
 	if (!node)
-		return (1);	
+		return (1);
 	return (make_redirection(parsed, &(node_direct->here_doc), here));
 }

@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 11:37:16 by joowpark          #+#    #+#             */
-/*   Updated: 2023/01/09 13:42:48 by joowpark         ###   ########.fr       */
+/*   Updated: 2023/01/09 19:00:06 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,55 +16,14 @@
 
 void	set_signal(void);
 
-static int	__do_cmds(char *cmd)
-{
-	char	**tokens;
-	int		nr_tokens;
-	char	*new_cmd;
-	int		ret;
-
-	ret = 1;
-	new_cmd = line_env_expender(cmd);
-	tokens = malloc(sizeof(*tokens) * (ft_strlen(new_cmd) + 1));
-	if (!tokens)
-		return (1);
-	if (!parse_cmd(tokens, new_cmd, &nr_tokens))
-		ret = do_cmds(tokens);
-	free_tokens(tokens);
-	free(new_cmd);
-	return (ret);
-}
-
-static void	do_tokens(char **cmd)
-{
-	int		cmd_fail;
-
-	cmd_fail = 1;
-	while (*cmd)
-	{
-		if (ft_strncmp(*cmd, "&&", 3) == 0)
-		{
-			if (cmd_fail)
-				cmd ++;
-			cmd ++;
-			continue ;
-		}
-		else if (ft_strncmp(*cmd, "||", 3) == 0)
-		{
-			if (!cmd_fail)
-				cmd ++;
-			cmd += 1;
-			continue ;
-		}
-		cmd_fail = __do_cmds(*cmd);
-		cmd += 1;
-	}
-}
-
 static int	show_prompt(char *cmd)
 {
 	char	**tokens;
+	int		ret;
+	size_t	idx;
 
+	ret = 0;
+	idx = 0;
 	redirect_status(0);
 	rl_on_new_line();
 	if (!cmd)
@@ -75,11 +34,8 @@ static int	show_prompt(char *cmd)
 	cmd = remove_parentheses(cmd);
 	tokens = parse_tokens(cmd);
 	if (tokens)
-	{
-		do_tokens(tokens);
-		free_tokens(tokens);
-	}
-	return (0);
+		ret = get_tokens(cmd, ret, idx);
+	return (ret);
 }
 
 int	main(void)
@@ -100,8 +56,3 @@ int	main(void)
 	}
 	return (0);
 }
-
-// segfault when "\"" << solved
-// sigint exitcode << solved
-// fork exitcode 127 126 << solved
-// ambigous redirect << solved

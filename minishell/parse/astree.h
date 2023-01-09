@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 12:54:55 by joowpark          #+#    #+#             */
-/*   Updated: 2023/01/09 13:26:17 by joowpark         ###   ########.fr       */
+/*   Updated: 2023/01/09 15:29:10 by joowpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,11 @@ struct s_node{
 	size_t			depth;
 	struct s_node	*root;
 	struct s_node	*parent;
-	int				std_in;
-	int				std_out;
+	int				std_inout[2];
 	char			*here_doc;
 };
 
+struct s_node	*get_tree(char *tokens);
 struct s_node	*get_near_type_node(struct s_node *node, int type);
 void			do_cmd_token(struct s_node *node, int is_in_pipe, int ret);
 void			search_tree(struct s_node *node, int *is_in_pipe, int *ret);

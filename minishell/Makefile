@@ -6,12 +6,12 @@
 #    By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/31 12:48:31 by tjo               #+#    #+#              #
-#    Updated: 2023/01/09 13:19:58 by joowpark         ###   ########.fr        #
+#    Updated: 2023/01/09 17:52:40 by tjo              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
-CFLAGS = -Wall -Wextra -Werror -g3 -ggdb #-fsanitize=address
+CFLAGS = -Wall -Wextra -g3 -ggdb -fsanitize=address
 
 LIBFT = ft_mylibft/libft.a
 LIBFT_SRCS = ft_mylibft
@@ -21,7 +21,7 @@ BUILTIN_FOLDER = builtin/
 
 SRCS_PARSE = astree.c astree_utils.c ft_free.c ft_str_utils.c \
 	  do_cmds.c parse_cmd.c ft_check_tokens.c parse_tokens.c \
-	  parse_parn.c pre_astree.c
+	  parse_parn.c pre_astree.c get_tokens.c
 SRCS_BUILTIN = ft_unset.c ft_quoteparse1.c ft_quoteparse2.c ft_executer.c \
 	ft_error.c ft_cd.c ft_echo.c ft_pwd.c ft_builtin_utils.c \
 	ft_exit.c ft_env.c ft_export.c ft_fork_execve.c ft_make_redirection.c \

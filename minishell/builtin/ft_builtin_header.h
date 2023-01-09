@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 11:47:04 by tjo               #+#    #+#             */
-/*   Updated: 2023/01/09 13:35:43 by joowpark         ###   ########.fr       */
+/*   Updated: 2023/01/09 18:52:45 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,7 @@
 # include"../ft_mylibft/libft.h"
 # include "../parse/astree.h"
 
-# define STDIN_BACKUP 254
-# define STDOUT_BACKUP 255
+int	g_exit_code;
 
 enum e_parser
 {
@@ -97,6 +96,6 @@ int		wildcard_parser(char ***parsed);
 int		reorder_parsed(char ***parsed);
 int		free_parsed(char **parsed);
 
-void	get_input_line(struct s_node *node,int is_in_pipe);
+void	get_input_line(struct s_node *node, int is_in_pipe);
 int		ft_pre_executer(char *s, struct s_node *node);
 #endif

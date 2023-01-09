@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 18:04:43 by tjo               #+#    #+#             */
-/*   Updated: 2023/01/09 13:51:32 by joowpark         ###   ########.fr       */
+/*   Updated: 2023/01/09 18:56:39 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,74 +40,32 @@ static int	__redirection_input(char *target, int type)
 static int	__redirection_heredoc(char *limiter, char **node_line)
 {
 	int		lim_l;
-	char	*tmpline;
-	char	*old;
-	char	*new;
+	char	*tmp[3];
 
 	if (*node_line)
 	{
 		free(*node_line);
 		*node_line = NULL;
 	}
-	new = ft_strdup("");
+	tmp[2] = ft_strdup("");
 	lim_l = ft_strlen(limiter);
 	while (1)
 	{
-		ft_fprintf(2,">");
-		tmpline = get_next_line(0); //readline(">");
-		tmpline[ft_strlen(tmpline) - 1] = '\0';
-		if (ft_strncmp(limiter, tmpline, lim_l + 1) == 0)
-				break ;
-		tmpline[ft_strlen(tmpline)] = '\n';
-		old = new;
-		new = ft_strjoin(old, tmpline);
-		free(old);
-		free(tmpline);
+		ft_fprintf(1, ">");
+		tmp[0] = get_next_line(0);
+		tmp[0][ft_strlen(tmp[0]) - 1] = '\0';
+		if (ft_strncmp(limiter, tmp[0], lim_l + 1) == 0)
+			break ;
+		tmp[0][ft_strlen(tmp[0])] = '\n';
+		tmp[1] = tmp[2];
+		tmp[2] = ft_strjoin(tmp[1], tmp[0]);
+		free(tmp[1]);
+		free(tmp[0]);
 	}
-	*node_line = new;
+	*node_line = tmp[2];
 	return (0);
 }
 
-/*
-static void	__here_doc(int *fd, char *limiter)
-{
-	char	*str;
-
-	close(fd[0]);
-	//dup2(fd[1], 1);
-	while (1)
-	{
-		str = readline("> ");
-		if (!str || ft_strncmp(str, limiter, ft_strlen(limiter) + 1) == 0)
-				break ;
-		ft_fprintf(fd[1], "%s\n",str);
-		free(str);
-	}
-	close(fd[1]);
-	exit(0);
-}
-
-static int __redirection_heredoc(char *limiter)
-{
-	pid_t	pid;
-	int		fd[2];
-	int		stat;
-
-	pipe(fd);
-	pid = fork();
-	stat = 0;
-	if (pid)
-	{
-		close(fd[1]);
-		dup2(fd[0], 0);
-		waitpid(pid, &stat, WNOHANG);
-		close(fd[0]);
-	}
-	else
-		__here_doc(fd, limiter);
-	return (stat);
-}
-*/
 static int	__redirection(char *target, int type, char **node_line, int here)
 {
 	int		ret;

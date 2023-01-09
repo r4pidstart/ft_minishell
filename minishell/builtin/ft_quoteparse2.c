@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/27 17:05:53 by tjo               #+#    #+#             */
-/*   Updated: 2023/01/05 14:17:10 by tjo              ###   ########.fr       */
+/*   Updated: 2023/01/09 18:18:55 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ char	**dummy_parsed(char **target)
 		siz++;
 		cur[0]++;
 	}
-	ret = (char **)malloc(sizeof(char *) * siz + 2);
+	ret = (char **)malloc(sizeof(char *) * (siz + 2));
 	cur[0] = target;
 	cur[1] = ret;
 	while (*cur[0])
@@ -143,6 +143,8 @@ char	*line_env_expender(char *s)
 			st.ret = processing_concat(s, &st, 1);
 			st.status = DOUBLE;
 		}
+		if (s[st.s] == 0)
+			break ;
 		st.s++;
 	}
 	st.ret = processing_concat(s, &st, 1);

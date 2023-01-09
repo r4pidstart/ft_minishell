@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 16:52:15 by tjo               #+#    #+#             */
-/*   Updated: 2023/01/09 13:34:23 by joowpark         ###   ########.fr       */
+/*   Updated: 2023/01/09 19:02:32 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ int	exit_code_export(int ret)
 	char	**tmp;
 	char	*tmpret;
 
-	tmp = (char **)malloc(sizeof(char **) * 3);
+	g_exit_code = ret;
+	tmp = (char **)malloc(sizeof(char *) * 3);
 	tmpret = ft_itoa(ret);
 	if (!tmp || !tmpret)
 		return (1);
@@ -103,10 +104,12 @@ int	builtin_executer(struct s_node *node, char *s, int is_in_pipe)
 		ret = make_pipe(node);
 	else if (*parsed)
 		ret = exec(parsed, node, is_in_pipe);
-	exit_code_export(ret);
+	if (!(ft_strlen(s) == 1 && s[0] == '|'))
+		exit_code_export(ret);
 	if (ret == 1 && (*parsed[0] == '<' || *parsed[0] == '>'))
 		ret = -42;
-	free_parsed(parsed);
+	if (!(ft_strlen(s) == 1 && s[0] == '|'))
+		free_parsed(parsed);
 	if (ret == -42)
 		return (error_handling("minishell: ", \
 			"syntax error near unexpected token ", "\\n"));
