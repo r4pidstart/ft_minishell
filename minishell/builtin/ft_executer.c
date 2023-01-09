@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 16:52:15 by tjo               #+#    #+#             */
-/*   Updated: 2023/01/05 08:52:08 by joowpark         ###   ########.fr       */
+/*   Updated: 2023/01/09 13:34:23 by joowpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,13 @@ int	exit_code_export(int ret)
 	return (0);
 }
 
-int	exec(char **parsed, int is_in_pipe)
+int	exec(char **parsed, struct s_node *node, int is_in_pipe)
 {
 	int	ret;
 	int	(*func)(char **);
 
 	select_builtin_func(parsed[0], &func);
+	get_input_line(node, is_in_pipe);
 	if (func)
 	{
 		ret = func(parsed);
@@ -97,11 +98,11 @@ int	builtin_executer(struct s_node *node, char *s, int is_in_pipe)
 	parsed = quote_parser(s);
 	wildcard_parser(&parsed);
 	if (*parsed && (parsed[0][0] == '<' || parsed[0][0] == '>'))
-		ret = check_redirect(parsed);
+		ret = check_redirect(parsed, node, 0);
 	else if (node->type == PIPE)
 		ret = make_pipe(node);
 	else if (*parsed)
-		ret = exec(parsed, is_in_pipe);
+		ret = exec(parsed, node, is_in_pipe);
 	exit_code_export(ret);
 	if (ret == 1 && (*parsed[0] == '<' || *parsed[0] == '>'))
 		ret = -42;

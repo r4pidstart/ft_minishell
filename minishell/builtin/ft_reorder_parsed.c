@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 14:44:20 by tjo               #+#    #+#             */
-/*   Updated: 2023/01/05 14:40:46 by tjo              ###   ########.fr       */
+/*   Updated: 2023/01/05 14:30:15 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static char	**extract_lst(t_list *lst, size_t len)
 	char	**cur;
 	t_list	*next;
 
-	ret = (char **)malloc(sizeof(char *) * (len + 1));
+	ret = (char **)malloc(sizeof(char **) * len + 1);
 	idx = 0;
 	while (lst)
 	{

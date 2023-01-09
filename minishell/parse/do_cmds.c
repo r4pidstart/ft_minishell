@@ -6,7 +6,7 @@
 /*   By: joowpark <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 15:10:14 by joowpark          #+#    #+#             */
-/*   Updated: 2023/01/05 12:21:02 by joowpark         ###   ########.fr       */
+/*   Updated: 2023/01/09 12:53:32 by joowpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,11 @@ static int	do_tree(struct s_node *root)
 	int		ret;
 	size_t	idx;
 
+	ret = 0;
 	is_in_pipe = 0;
+	pre_search_tree(root, &ret);
+	if (ret)
+		return (ret);
 	search_tree(root, &is_in_pipe, &ret);
 	idx = 0;
 	while (idx ++ < root->depth)

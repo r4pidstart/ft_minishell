@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 11:06:49 by joowpark          #+#    #+#             */
-/*   Updated: 2023/01/05 12:17:39 by joowpark         ###   ########.fr       */
+/*   Updated: 2023/01/09 12:56:32 by joowpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ struct s_node	*ft_alloc_node(char *line, char type, struct s_node *root)
 		.type = type,
 		.depth = 0,
 		.root = root,
+		.parent = NULL,
+		.here_doc = NULL,
 	};
 	if (root == NULL)
 		node->root = node;
@@ -70,9 +72,9 @@ void	search_tree(struct s_node *node, int *is_in_pipe, int *ret)
 {
 	int	oldfd[2];
 
-	if (node->type == PIPE || node->type == CMD)
+	if (node->type == PIPE || node->type == CMD || node->type == ROOT)
 		__set_node_pipe(node, is_in_pipe, oldfd);
-	if (node->line)
+	if (node->line)		//코드 실행
 		*ret = builtin_executer(node, node->line, *is_in_pipe);
 	if (*ret && *is_in_pipe && node->type != PIPE)
 		exit(1);
@@ -80,7 +82,7 @@ void	search_tree(struct s_node *node, int *is_in_pipe, int *ret)
 		search_tree(node->left, is_in_pipe, ret);
 	if (node->type == PIPE || node->type == NON_PIPE)
 		*is_in_pipe = 0;
-	if (node->right && node->type != NON_PIPE)
+	if (node->right  && node->type != NON_PIPE)
 		search_tree(node->right, is_in_pipe, ret);
 	if (node->type == PIPE || node->type == NON_PIPE
 		|| node->type == CMD || node->type == ROOT)

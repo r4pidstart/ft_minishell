@@ -6,11 +6,25 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 12:53:26 by joowpark          #+#    #+#             */
-/*   Updated: 2023/01/05 12:21:36 by joowpark         ###   ########.fr       */
+/*   Updated: 2023/01/09 13:44:16 by joowpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"ft_builtin_header.h"
+
+static int	is_redirect_after(struct s_node *node)
+{
+	if (!node->right)
+		return (1);
+	if (!node->right->left)
+		return (1);
+	if (!node->right->left->left)
+		return (1);
+	if (node->right->left->left->here_doc)
+		return (0);
+	return (1);
+}
+
 
 static int	__make_pipe(struct s_node *node, int *fd)
 {
@@ -22,7 +36,10 @@ static int	__make_pipe(struct s_node *node, int *fd)
 	if (pid)
 	{
 		close(fd[1]);
-		dup2(fd[0], 0);
+		if (is_redirect_after(node))
+		{
+			dup2(fd[0], 0);
+		}
 		close(fd[0]);
 	}
 	else
