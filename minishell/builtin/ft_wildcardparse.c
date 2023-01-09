@@ -6,11 +6,22 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 13:05:57 by tjo               #+#    #+#             */
-/*   Updated: 2023/01/10 00:42:36 by tjo              ###   ########.fr       */
+/*   Updated: 2023/01/10 00:52:26 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"ft_builtin_header.h"
+
+int	replace_temporal_wildcard(char *tmp)
+{
+	while (*tmp)
+	{
+		if (*tmp == '*')
+			*tmp = (char)127;
+		tmp++;
+	}
+	return (0);
+}
 
 static int	check_wildcard(char *str, int *ret)
 {
@@ -26,6 +37,8 @@ static int	check_wildcard(char *str, int *ret)
 			*ret = idx;
 			return (1);
 		}
+		else if (str[idx] == 127)
+			str[idx] = '*';
 		else if (!quote && str[idx] == '\'')
 			quote = SINGLE;
 		else if (!quote && str[idx] == '"')

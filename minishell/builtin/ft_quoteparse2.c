@@ -6,13 +6,13 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/27 17:05:53 by tjo               #+#    #+#             */
-/*   Updated: 2023/01/10 00:43:02 by tjo              ###   ########.fr       */
+/*   Updated: 2023/01/10 00:51:12 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"ft_builtin_header.h"
 
-static char	*processing_concat(char *s, t_parser *st, int env)
+static char	*processing_concat(char *s, t_parser *st, int env, int wild)
 {
 	char	*tmp;
 	char	*env_tmp;
@@ -30,6 +30,8 @@ static char	*processing_concat(char *s, t_parser *st, int env)
 		free(tmp);
 		tmp = env_tmp;
 	}
+	if (!wild)
+		replace_temporal_wildcard(tmp);
 	ret = ft_strjoin(st->ret, tmp);
 	free(st->ret);
 	free(tmp);
@@ -50,19 +52,19 @@ static char	*processing(char *s)
 		else if (ft_isspace(s[st.s]))
 			s[st.s] = 32;
 		if (st.status == SINGLE && s[st.s] == '\'')
-			st.ret = processing_concat(s, &st, 0);
+			st.ret = processing_concat(s, &st, 0, 0);
 		else if (st.status == DOUBLE && s[st.s] == '"')
-			st.ret = processing_concat(s, &st, 1);
+			st.ret = processing_concat(s, &st, 1, 0);
 		else if (st.status == NORMAL && (s[st.s] == '\'' || s[st.s] == '"'))
 		{
-			st.ret = processing_concat(s, &st, 1);
+			st.ret = processing_concat(s, &st, 1, 1);
 			st.status = DOUBLE;
 			if (s[st.s] == '\'')
 				st.status = SINGLE;
 		}
 		st.s++;
 	}
-	st.ret = processing_concat(s, &st, 1);
+	st.ret = processing_concat(s, &st, 1, 1);
 	return (st.ret);
 }
 
@@ -137,16 +139,16 @@ char	*line_env_expender(char *s)
 		else if (ft_isspace(s[st.s]))
 			s[st.s] = 32;
 		if (st.status == DOUBLE && s[st.s] == '\'')
-			st.ret = processing_concat(s, &st, 2);
+			st.ret = processing_concat(s, &st, 2, 0);
 		else if (st.status == NORMAL && s[st.s] == '\'')
 		{
-			st.ret = processing_concat(s, &st, 1);
+			st.ret = processing_concat(s, &st, 1, 0);
 			st.status = DOUBLE;
 		}
 		if (s[st.s] == 0)
 			break ;
 		st.s++;
 	}
-	st.ret = processing_concat(s, &st, 1);
+	st.ret = processing_concat(s, &st, 1, 0);
 	return (st.ret);
 }
