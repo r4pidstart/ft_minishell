@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_str_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joowpark <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 11:11:46 by joowpark          #+#    #+#             */
-/*   Updated: 2023/01/09 19:20:09 by joowpark         ###   ########.fr       */
+/*   Updated: 2023/01/09 23:14:47 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ char	*ft_strstrim(char *line)
 	end = line + ft_strlen(line) - 1;
 	while (*start && ft_isspace(*start))
 	{
-		*start = '\0';
 		start += 1;
 	}
 	while (*end && ft_isspace(*end))

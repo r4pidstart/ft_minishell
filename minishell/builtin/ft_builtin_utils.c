@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 19:45:45 by tjo               #+#    #+#             */
-/*   Updated: 2023/01/04 13:32:40 by joowpark         ###   ########.fr       */
+/*   Updated: 2023/01/09 23:28:52 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	print_all_env(void)
 		env = get_next_line(env_fd);
 		if (!env)
 			return (1);
-		ft_printf("%s", env);
+		ft_printf("declare -x %s", env);
 		free(env);
 	}
 	close(env_fd);

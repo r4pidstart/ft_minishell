@@ -6,12 +6,12 @@
 #    By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/31 12:48:31 by tjo               #+#    #+#              #
-#    Updated: 2023/01/09 20:54:11 by tjo              ###   ########.fr        #
+#    Updated: 2023/01/10 00:13:49 by tjo              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
-CFLAGS = -Wall -Wextra -Werror #-g3 -ggdb -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g3 -ggdb -fsanitize=address
 
 LIBFT = ft_mylibft/libft.a
 LIBFT_SRCS = ft_mylibft
@@ -39,13 +39,13 @@ endif
 
 MAIN = ft_main.c ft_envp.c ft_signal.c
 
-# ifdef BONUS
-# 	NAME = 
+ifdef BONUS
+ 	NAME = minishell_bonus
 # 	FOLDER = bonus/
 # 	SRCS = 
 # else
 # 	FOLDER =
-# endif
+endif
 
 all: $(NAME)
 
@@ -56,7 +56,6 @@ $(NAME): $(LIBFT) $(MAIN:.c:.o) $(addprefix $(PARSE_FOLDER), $(SRCS_PARSE:.c=.o)
 	$(addprefix $(PARSE_FOLDER), $(SRCS_PARSE)) \
 	$(addprefix $(BUILTIN_FOLDER), $(SRCS_BUILTIN)) \
 	-L$(LIBFT_SRCS) -lft  -lreadline $(__LDFLAGS) $(__CPPFLAGS)
-	# $(MAKE) clean
 
 $(LIBFT):
 	make -C $(LIBFT_SRCS) all

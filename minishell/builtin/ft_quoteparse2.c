@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/27 17:05:53 by tjo               #+#    #+#             */
-/*   Updated: 2023/01/09 18:18:55 by tjo              ###   ########.fr       */
+/*   Updated: 2023/01/10 00:43:02 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ char	**quote_parser(char *str)
 
 	s = processing(str);
 	splited = ft_split(s, ' ');
-	if (s[ft_strlen(s) - 1] == ' ')
+	if (!ft_strlen(s) || s[ft_strlen(s) - 1] == ' ')
 		splited = dummy_parsed(splited);
 	free(s);
 	pstring = splited;

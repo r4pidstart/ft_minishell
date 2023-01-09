@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 11:47:04 by tjo               #+#    #+#             */
-/*   Updated: 2023/01/09 18:52:45 by tjo              ###   ########.fr       */
+/*   Updated: 2023/01/10 00:43:25 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,4 +98,5 @@ int		free_parsed(char **parsed);
 
 void	get_input_line(struct s_node *node, int is_in_pipe);
 int		ft_pre_executer(char *s, struct s_node *node);
+
 #endif

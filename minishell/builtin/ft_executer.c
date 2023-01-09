@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 16:52:15 by tjo               #+#    #+#             */
-/*   Updated: 2023/01/09 20:23:31 by joowpark         ###   ########.fr       */
+/*   Updated: 2023/01/10 00:43:10 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,17 @@ int	exec(char **parsed, struct s_node *node, int is_in_pipe)
 	get_input_line(node, is_in_pipe);
 	if (func)
 	{
+		if (is_in_pipe && (func == &export || func == &unset))
+			exit(0);
 		ret = func(parsed);
 		if (is_in_pipe)
 			exit(0);
 	}
 	else
 	{
+		if (parsed[0][0] == '\0')
+			return (error_handling("minishell", \
+				parsed[0], "command not found"), 127);
 		if (!is_in_pipe)
 			ret = fork_execve(parsed);
 		else
@@ -110,7 +115,9 @@ int	builtin_executer(struct s_node *node, char *s, int is_in_pipe)
 		ret = -42;
 	free_parsed(parsed);
 	if (ret == -42)
-		return (error_handling("minishell: ", \
+		return (redirect_status(1), error_handling("minishell: ", \
 			"syntax error near unexpected token ", "\\n"));
 	return (ret);
 }
+
+// cat    < |ls

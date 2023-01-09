@@ -51,5 +51,7 @@
     "editor.insertSpaces": false,
 	"editor.detectIndentation": false,
 	"codam-norminette-3.displayErrorName": true,
-	"C_Cpp.default.configurationProvider": "ms-vscode.makefile-tools"
+	"C_Cpp.default.configurationProvider": "ms-vscode.makefile-tools",
+	"explorer.sortOrder": "type",
+	"explorer.fileNesting.enabled": false
 }
