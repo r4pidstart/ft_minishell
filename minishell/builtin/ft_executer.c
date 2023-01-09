@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 16:52:15 by tjo               #+#    #+#             */
-/*   Updated: 2023/01/10 00:43:10 by tjo              ###   ########.fr       */
+/*   Updated: 2023/01/10 01:17:49 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,5 +119,3 @@ int	builtin_executer(struct s_node *node, char *s, int is_in_pipe)
 			"syntax error near unexpected token ", "\\n"));
 	return (ret);
 }
-
-// cat    < |ls
