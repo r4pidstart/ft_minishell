@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 18:04:43 by tjo               #+#    #+#             */
-/*   Updated: 2023/01/09 18:56:39 by tjo              ###   ########.fr       */
+/*   Updated: 2023/01/09 20:34:53 by joowpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,8 @@ static int	__redirection_input(char *target, int type)
 	return (ret == -1);
 }
 
-static int	__redirection_heredoc(char *limiter, char **node_line)
+static int	__redirection_heredoc(const char *limiter, char **node_line)
 {
-	int		lim_l;
 	char	*tmp[3];
 
 	if (*node_line)
@@ -48,13 +47,12 @@ static int	__redirection_heredoc(char *limiter, char **node_line)
 		*node_line = NULL;
 	}
 	tmp[2] = ft_strdup("");
-	lim_l = ft_strlen(limiter);
 	while (1)
 	{
 		ft_fprintf(1, ">");
 		tmp[0] = get_next_line(0);
 		tmp[0][ft_strlen(tmp[0]) - 1] = '\0';
-		if (ft_strncmp(limiter, tmp[0], lim_l + 1) == 0)
+		if (ft_strncmp(limiter, tmp[0], ft_strlen(limiter) + 1) == 0)
 			break ;
 		tmp[0][ft_strlen(tmp[0])] = '\n';
 		tmp[1] = tmp[2];
@@ -62,6 +60,7 @@ static int	__redirection_heredoc(char *limiter, char **node_line)
 		free(tmp[1]);
 		free(tmp[0]);
 	}
+	free(tmp[0]);
 	*node_line = tmp[2];
 	return (0);
 }

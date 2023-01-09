@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 15:10:14 by joowpark          #+#    #+#             */
-/*   Updated: 2023/01/09 19:03:04 by tjo              ###   ########.fr       */
+/*   Updated: 2023/01/09 20:08:42 by joowpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,10 @@ void	do_cmd_token(struct s_node *node, int is_in_pipe, int ret)
 
 static struct s_node	*__get_tree(struct s_node *root, char **tokens)
 {
-	int	ret;
+	int		ret;
+	char	**toks;
 
+	toks = tokens;
 	ret = 0;
 	while (*tokens && !ret)
 	{
@@ -46,6 +48,7 @@ static struct s_node	*__get_tree(struct s_node *root, char **tokens)
 		perror(NULL);
 		return (NULL);
 	}
+	free_tokens(toks);
 	return (root);
 }
 
@@ -63,7 +66,11 @@ struct s_node	*get_tree(char *cmd)
 		return (NULL);
 	tokens = (char **)malloc(sizeof(*tokens) * (ft_strlen(cmd) + 1));
 	if (parse_cmd(tokens, cmd, &nr_tokens))
+	{
+		free_tree(root);
+		free_tokens(tokens);
 		return (NULL);
+	}
 	if (!tokens)
 		return (NULL);
 	return (__get_tree(root, tokens));

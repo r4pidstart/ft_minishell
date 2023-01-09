@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 09:06:48 by joowpark          #+#    #+#             */
-/*   Updated: 2023/01/09 18:31:42 by tjo              ###   ########.fr       */
+/*   Updated: 2023/01/09 20:00:56 by joowpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,18 +76,20 @@ static void	__parse_tokens(char **ret, char *cmd, int nr_tokens)
 	ret[nr_tokens] = NULL;
 }
 
-char	**parse_tokens(char *line)
+char	**parse_tokens(char *_line)
 {
 	char	**ret;
 	int		nr_tokens;
+	char	*line;
 
-	if (!line)
+	if (!_line)
 		return (NULL);
-	ret = malloc(sizeof(*ret) * (ft_strlen(line) + 1));
+	ret = malloc(sizeof(*ret) * (ft_strlen(_line) + 1));
 	if (!ret)
 		return (ret);
 	nr_tokens = 0;
-	__parse_tokens(ret, ft_strstrim(line), nr_tokens);
+	line = ft_strstrim(_line);
+	__parse_tokens(ret, line, nr_tokens);
 	if (check_tokens(ret))
 	{
 		free_tokens(ret);

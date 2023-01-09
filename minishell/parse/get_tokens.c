@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 14:57:30 by joowpark          #+#    #+#             */
-/*   Updated: 2023/01/09 18:58:46 by tjo              ###   ########.fr       */
+/*   Updated: 2023/01/09 20:52:10 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,14 @@ static void	__get_tokens(struct s_node **tree)
 		tree ++;
 	}
 	if (cnt != 1)
-		exit_code_export(!!g_exit_code);
+		exit_code_export(g_exit_code);
+}
+
+static void	get_tokens_other(struct s_node **trees, size_t len)
+{
+	trees[len - 1] = NULL;
+	__get_tokens(trees);
+	free_trees(trees);
 }
 
 int	get_tokens(char *cmd, int ret, size_t idx)
@@ -72,10 +79,12 @@ int	get_tokens(char *cmd, int ret, size_t idx)
 	struct s_node	**trees;
 	size_t			len;
 	char			**tokens;
+	char			**toks;
 
 	tokens = parse_tokens(cmd);
 	if (!tokens)
 		return (1);
+	toks = tokens;
 	len = ft_sstrlen(tokens) + 1;
 	trees = (struct s_node **)malloc(sizeof(*trees) * len);
 	if (!trees)
@@ -87,9 +96,8 @@ int	get_tokens(char *cmd, int ret, size_t idx)
 			break ;
 		pre_search_tree(trees[idx ++], &ret);
 	}
-	free_tokens(tokens - idx);
-	trees[len - 1] = NULL;
+	free_tokens(toks);
 	if (ret)
 		return (ret);
-	return (__get_tokens(trees), 0);
+	return (get_tokens_other(trees, len), 0);
 }

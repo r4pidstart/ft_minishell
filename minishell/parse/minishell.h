@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 12:10:35 by joowpark          #+#    #+#             */
-/*   Updated: 2023/01/09 18:58:54 by tjo              ###   ########.fr       */
+/*   Updated: 2023/01/09 20:25:53 by joowpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,5 @@ char	**parse_tokens(char *line);
 int		error_handling(char *progname, char *custom_msg, char *path);
 char	*remove_parentheses(char *line);
 int		get_tokens(char *cmd, int ret, size_t idx);
+void	free_trees(struct s_node **trees);
 #endif

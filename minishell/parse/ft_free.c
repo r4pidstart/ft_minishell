@@ -6,7 +6,7 @@
 /*   By: joowpark <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 12:53:26 by joowpark          #+#    #+#             */
-/*   Updated: 2023/01/09 12:58:51 by joowpark         ###   ########.fr       */
+/*   Updated: 2023/01/09 20:25:27 by joowpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,27 @@ void	free_tree(struct s_node *node)
 
 	left = node->left;
 	right = node->right;
-	if (!node->here_doc)
+	if (node->here_doc)
 		free(node->here_doc);
-	free(node);
+	if (node->line)
+		free(node->line);
+	if (node)
+		free(node);
 	if (left)
 		free_tree(left);
 	if (right)
 		free_tree(right);
+}
+
+void	free_trees(struct s_node **trees)
+{
+	struct s_node	**tmp;
+
+	tmp = trees;
+	while (*tmp)
+	{
+		free_tree(*tmp);
+		tmp ++;
+	}
+	free(trees);
 }
