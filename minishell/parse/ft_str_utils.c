@@ -6,7 +6,7 @@
 /*   By: joowpark <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 11:11:46 by joowpark          #+#    #+#             */
-/*   Updated: 2022/12/28 15:25:56 by joowpark         ###   ########.fr       */
+/*   Updated: 2023/01/09 19:20:09 by joowpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ char	*ft_strstrim(char *line)
 	char	*end;
 
 	start = line;
+	if (!ft_strlen(line))
+		return (start);
 	end = line + ft_strlen(line) - 1;
 	while (*start && ft_isspace(*start))
 	{
@@ -26,7 +28,7 @@ char	*ft_strstrim(char *line)
 	}
 	while (*end && ft_isspace(*end))
 	{
-		*end = 0;
+		*end = '\0';
 		end -= 1;
 	}
 	return (start);

@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 16:52:15 by tjo               #+#    #+#             */
-/*   Updated: 2023/01/09 19:02:32 by tjo              ###   ########.fr       */
+/*   Updated: 2023/01/09 20:23:31 by joowpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,8 +108,7 @@ int	builtin_executer(struct s_node *node, char *s, int is_in_pipe)
 		exit_code_export(ret);
 	if (ret == 1 && (*parsed[0] == '<' || *parsed[0] == '>'))
 		ret = -42;
-	if (!(ft_strlen(s) == 1 && s[0] == '|'))
-		free_parsed(parsed);
+	free_parsed(parsed);
 	if (ret == -42)
 		return (error_handling("minishell: ", \
 			"syntax error near unexpected token ", "\\n"));
