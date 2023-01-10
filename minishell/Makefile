@@ -6,12 +6,12 @@
 #    By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/31 12:48:31 by tjo               #+#    #+#              #
-#    Updated: 2023/01/10 00:13:49 by tjo              ###   ########.fr        #
+#    Updated: 2023/01/10 14:47:45 by joowpark         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
-CFLAGS = -Wall -Wextra -Werror -g3 -ggdb -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g3 -ggdb
 
 LIBFT = ft_mylibft/libft.a
 LIBFT_SRCS = ft_mylibft
@@ -39,12 +39,10 @@ endif
 
 MAIN = ft_main.c ft_envp.c ft_signal.c
 
+BNAME = minishell_bonus
+
 ifdef BONUS
  	NAME = minishell_bonus
-# 	FOLDER = bonus/
-# 	SRCS = 
-# else
-# 	FOLDER =
 endif
 
 all: $(NAME)
@@ -72,7 +70,7 @@ clean:
 	make clean -C $(LIBFT_SRCS)
 	
 fclean: clean
-	rm -rf $(NAME)
+	rm -rf $(NAME) $(BNAME)
 	make fclean -C $(LIBFT_SRCS)
 
 re:

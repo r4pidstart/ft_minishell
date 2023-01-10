@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 18:04:43 by tjo               #+#    #+#             */
-/*   Updated: 2023/01/10 01:15:34 by tjo              ###   ########.fr       */
+/*   Updated: 2023/01/10 14:29:36 by joowpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ static int	__redirection(char *target, int type, char **node_line, int here)
 	if (type == R_INPUT && ret)
 	{
 		redirect_status(1);
-		ret = error_handling("minishell", trimmed_target \
+		ret = error_handling("minishell ", trimmed_target \
 			, "No such file or directory");
 	}
 	free(trimmed_target);

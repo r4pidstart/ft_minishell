@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 11:37:16 by joowpark          #+#    #+#             */
-/*   Updated: 2023/01/09 20:36:46 by joowpark         ###   ########.fr       */
+/*   Updated: 2023/01/10 14:10:34 by joowpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	set_signal(void);
 
 static int	show_prompt(char *__cmd)
 {
-	char	**tokens;
 	int		ret;
 	size_t	idx;
 	char	*cmd;
@@ -33,11 +32,7 @@ static int	show_prompt(char *__cmd)
 		return (0);
 	add_history(__cmd);
 	cmd = remove_parentheses(__cmd);
-	tokens = parse_tokens(cmd);
-	if (tokens)
-		ret = get_tokens(cmd, ret, idx);
-	if (tokens)
-		free_tokens(tokens);
+	ret = get_tokens(ft_strstrim(__cmd), ret, idx);
 	return (ret);
 }
 

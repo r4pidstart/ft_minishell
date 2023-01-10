@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 13:05:57 by tjo               #+#    #+#             */
-/*   Updated: 2023/01/10 00:52:26 by tjo              ###   ########.fr       */
+/*   Updated: 2023/01/10 14:44:04 by joowpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,8 @@ static int	check_pattern(int idx, char *str, char *target)
 	if (ft_strncmp(str + idx + 1, \
 		target + ft_strlen(target) - (ft_strlen(str) - idx) + 1, -1))
 		return (0);
-	target[ft_strlen(target)] = 7;
 	target[ft_strlen(target) + 1] = '\0';
+	target[ft_strlen(target)] = 7;
 	return (1);
 }
 

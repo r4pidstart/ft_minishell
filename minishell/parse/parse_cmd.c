@@ -6,21 +6,33 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 13:09:42 by joowpark          #+#    #+#             */
-/*   Updated: 2023/01/09 19:36:19 by joowpark         ###   ########.fr       */
+/*   Updated: 2023/01/10 14:23:11 by joowpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parse.h"
 
+static void	cmgxg(int *is_gal, char *cmd);
+
 static char	*get_file_name(char *cmd, char **line)
 {
 	char	*ret;
+	int		is_gal;
 
+	is_gal = 0;
 	while (ft_isspace(*cmd))
 		cmd ++;
-	while (!ft_isspace(*cmd) && *cmd != '<'
-		&& *cmd != '|' && *cmd != '>' && *cmd)
-		cmd ++;
+	while (*cmd)
+	{
+		if (*cmd == '\'' || *cmd == '\"')
+		{
+			if (*cmd == is_gal || is_gal == 0)
+				cmgxg(&is_gal, cmd);
+		}
+		if (is_gal == 0 && ft_strchr(DELTOKEN, *cmd))
+			break ;
+		cmd += 1;
+	}
 	ret = ft_strndup(*line, cmd - *line);
 	*line = cmd;
 	return (ret);
