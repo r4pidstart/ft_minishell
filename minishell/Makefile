@@ -6,12 +6,12 @@
 #    By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/31 12:48:31 by tjo               #+#    #+#              #
-#    Updated: 2023/01/10 14:47:45 by joowpark         ###   ########.fr        #
+#    Updated: 2023/01/26 06:42:20 by tjo              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
-CFLAGS = -Wall -Wextra -Werror -g3 -ggdb
+CFLAGS = #-Wall -Wextra -Werror -g3 -ggdb
 
 LIBFT = ft_mylibft/libft.a
 LIBFT_SRCS = ft_mylibft
