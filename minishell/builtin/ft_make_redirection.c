@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 18:04:43 by tjo               #+#    #+#             */
-/*   Updated: 2023/01/10 14:29:36 by joowpark         ###   ########.fr       */
+/*   Updated: 2023/01/26 16:36:08 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,14 @@ static int	__redirection_heredoc(const char *limiter, char **node_line)
 	char	*tmp[3];
 
 	if (*node_line)
-	{
 		free(*node_line);
-		*node_line = NULL;
-	}
 	tmp[2] = ft_strdup("");
 	while (1)
 	{
 		ft_fprintf(1, ">");
 		tmp[0] = get_next_line(0);
+		if (!tmp[0])
+			break ;
 		tmp[0][ft_strlen(tmp[0]) - 1] = '\0';
 		if (ft_strncmp(limiter, tmp[0], ft_strlen(limiter) + 1) == 0)
 			break ;
